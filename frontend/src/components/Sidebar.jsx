@@ -26,6 +26,20 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
+              to="/all-plans"
+              className={({ isActive }) =>
+                `block py-2.5 px-4 text-gray-900 ${
+                  isActive
+                    ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                    : "hover:gray-800"
+                }`
+              }
+            >
+              All Plans
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/create"
               className={({ isActive }) =>
                 `block py-2.5 px-4 text-gray-900 ${
@@ -50,20 +64,6 @@ const Sidebar = () => {
               }
             >
               Settings
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/all-plans"
-              className={({ isActive }) =>
-                `block py-2.5 px-4 text-gray-900 ${
-                  isActive
-                    ? "bg-gray-900 text-gray-100 rounded-[48px]"
-                    : "hover:gray-800"
-                }`
-              }
-            >
-              All Plans
             </NavLink>
           </li>
         </ul>
