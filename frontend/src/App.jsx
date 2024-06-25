@@ -8,6 +8,7 @@ import Layout from "./Layout.jsx";
 import Create from "./pages/Create.jsx";
 import Settings from "./pages/Settings.jsx";
 import AllPlans from "./pages/AllPlans";
+import PlanDetails from "./pages/PlanDetails";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,6 +22,7 @@ function App() {
             <Route path="create" element={<Create />} />
             <Route path="settings" element={<Settings />} />
             <Route path="all-plans" element={<AllPlans />} />
+            <Route path="txplan/:id" element={<PlanDetails />} />
           </Route>
         </Routes>
       </Router>

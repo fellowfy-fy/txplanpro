@@ -7,6 +7,7 @@ const Sidebar = () => {
       <div className="p-6">
         <h1 className="text-2xl font-bold">TxPlanPro</h1>
       </div>
+      <p className="py-2.5 px-4">Menu</p>
       <nav className="flex-1 px-6">
         <ul className="space-y-4">
           <li>

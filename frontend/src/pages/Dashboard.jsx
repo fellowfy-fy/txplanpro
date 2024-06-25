@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const handleClick = (tile) => {
-    console.log(`Clicked on ${tile}`);
+  const handleClick = (id) => {
+    navigate(`/txplan/${id}`);
   };
 
   return (
@@ -16,12 +16,12 @@ const Dashboard = () => {
         <Tile
           title="Patient: Johanna Doe"
           description="Details about Johanna's treatment plan"
-          onClick={() => handleClick("Johanna Doe")}
+          onClick={() => handleClick("johanna-doe")}
         />
         <Tile
           title="Patient: Lisa Ann"
           description="Details about Lisa's treatment plan"
-          onClick={() => handleClick("Lisa Ann")}
+          onClick={() => handleClick("lisa-ann-implants")}
         />
         {/* Add more tiles as needed */}
       </div>
