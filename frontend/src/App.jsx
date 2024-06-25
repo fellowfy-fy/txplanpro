@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Layout from "./Layout.jsx";
 import Create from "./pages/Create.jsx";
 import Settings from "./pages/Settings.jsx";
+import AllPlans from "./pages/AllPlans";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="create" element={<Create />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="all-plans" element={<AllPlans />} />
           </Route>
         </Routes>
       </Router>

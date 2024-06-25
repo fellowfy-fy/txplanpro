@@ -16,6 +16,11 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="mb-4">
+            <Link to="/all-plans" className="block py-2 px-4 hover:bg-gray-700">
+              All plans
+            </Link>
+          </li>
+          <li className="mb-4">
             <Link to="/create" className="block py-2 px-4 hover:bg-gray-700">
               Create
             </Link>
