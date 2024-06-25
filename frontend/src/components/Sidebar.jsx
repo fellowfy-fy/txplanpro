@@ -1,3 +1,4 @@
+// src/components/Sidebar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -10,21 +11,20 @@ const Sidebar = () => {
       <nav className="mt-10">
         <ul>
           <li className="mb-4">
-            <Link to="/" className="block py-2 px-4 hover:bg-gray-700">
-              Home
+            <Link to="/dashboard" className="block py-2 px-4 hover:bg-gray-700">
+              Dashboard
             </Link>
           </li>
           <li className="mb-4">
-            <Link to="/about" className="block py-2 px-4 hover:bg-gray-700">
-              About
+            <Link to="/create" className="block py-2 px-4 hover:bg-gray-700">
+              Create
             </Link>
           </li>
           <li className="mb-4">
-            <Link to="/contact" className="block py-2 px-4 hover:bg-gray-700">
-              Contact
+            <Link to="/settings" className="block py-2 px-4 hover:bg-gray-700">
+              Settings
             </Link>
           </li>
-          {/* Add more links as needed */}
         </ul>
       </nav>
     </div>
