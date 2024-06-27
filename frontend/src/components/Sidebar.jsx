@@ -14,7 +14,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/dashboard"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3 "
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Dashboard
               </NavLink>
@@ -22,7 +28,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/all-plans"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 All Plans
               </NavLink>
@@ -30,7 +42,13 @@ const Sidebar = () => {
             {/* <li>
               <NavLink
                 to="/present"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Ready to present
               </NavLink>
@@ -38,7 +56,13 @@ const Sidebar = () => {
             {/* <li>
               <NavLink
                 to="/todo"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 To-do plans
               </NavLink>
@@ -48,7 +72,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/login"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Login
               </NavLink>
@@ -56,7 +86,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/register"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Register
               </NavLink>
@@ -64,7 +100,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/create"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Create
               </NavLink>
@@ -72,7 +114,13 @@ const Sidebar = () => {
             {/* <li>
               <NavLink
                 to="/patients"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Patients
               </NavLink>
@@ -80,7 +128,13 @@ const Sidebar = () => {
             <li>
               <NavLink
                 to="/settings"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Settings
               </NavLink>
@@ -88,7 +142,13 @@ const Sidebar = () => {
             {/* <li>
               <NavLink
                 to="/help"
-                className="active:bg-gray-900 active:text-gray-200 block px-4 text-gray-900 rounded-[48px] hover:text-gray-500 py-3"
+                                className={({ isActive }) =>
+                  `block py-2.5 px-4 text-gray-900 ${
+                    isActive
+                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                      : "hover:text-gray-500"
+                  }`
+                }
               >
                 Help & Support
               </NavLink>
