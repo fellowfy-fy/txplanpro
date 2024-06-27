@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
 )
 from django.conf import settings
 from django.conf.urls.static import static
-from api.views import RegisterView, CreatePatient, ListPatient, DoctorPhotoUploadView, PatientPhotoUploadView, UpdateDoctor, UpdatePatient, UpdateClinicPhotoView, UpdatePatientPhotoView
+from api.views import RegisterView, CreatePatient, ListPatient, DoctorPhotoUploadView, PatientPhotoUploadView, UpdateDoctor, UpdatePatient, UpdateClinicPhotoView, UpdatePatientPhotoView, DoctorDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -21,7 +21,7 @@ urlpatterns = [
     path('api/patients/<int:pk>/update/', UpdatePatient.as_view(), name='update-patient'),
     path('api/doctors/update/', UpdateDoctor.as_view(), name='update-doctor'),
     path('api/clinic_photo/<int:pk>/update/', UpdateClinicPhotoView.as_view(), name='update-clinic-photo'),
-    path('api/patient_photo/<int:pk>/update/', UpdatePatientPhotoView.as_view(), name='update-patient-photo'),
+    path('api/patient_photo/<int:pk>/update/', UpdatePatientPhotoView.as_view(), name='update-patient-photo'),   path('api/doctor/me/', DoctorDetailView.as_view(), name='doctor-detail'),
 
     # path('', include('sandbox.urls')),
 ]
