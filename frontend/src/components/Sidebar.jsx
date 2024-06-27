@@ -1,7 +1,9 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Sidebar = () => {
+  const { auth } = useAuth();
+
   return (
     <div className="w-64 h-screen bg-gray-100  fixed flex flex-col">
       <div className="p-6">
@@ -68,7 +70,9 @@ const Sidebar = () => {
               </NavLink>
             </li> */}
             {/* плейсхолдер */}
-            <p className="p-4 font-light text-[14px]">Dr. JOHN DOE</p>
+            <p className="p-4 font-light text-[14px]">
+              Dr. {auth?.username ? auth.username : "John Doe"}
+            </p>
             <li>
               <NavLink
                 to="/login"

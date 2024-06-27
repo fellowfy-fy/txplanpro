@@ -1,10 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView
 from .serializers import DoctorSerializer, PatientSerializer, ClinicPhotoSerializer, PatientPhotoSerializer
 from .models import Doctor, Patient, ClinicPhoto, PatientPhoto
-from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -134,3 +134,12 @@ class UpdateDoctor(UpdateAPIView):
     def get_object(self):
         # Ensure that the authenticated user is the doctor being updated
         return Doctor.objects.get(user=self.request.user)
+
+class DoctorDetailView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        doctor = get_object_or_404(Doctor, user=user)
+        serializer = DoctorSerializer(doctor)
+        return Response(serializer.data)
