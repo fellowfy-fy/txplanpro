@@ -4,28 +4,9 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
-  const [persist, setPersist] = useState(
-    JSON.parse(localStorage.getItem("persist")) || false
-  );
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("access_token")
-  );
-
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
 
   return (
-    <AuthContext.Provider
-      value={{
-        auth,
-        setAuth,
-        persist,
-        setPersist,
-        isAuthenticated,
-        login,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,22 +8,25 @@ import AllPlans from "./pages/AllPlans";
 import PlanDetails from "./pages/PlanDetails";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="create" element={<Create />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="all-plans" element={<AllPlans />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="txplan/:id" element={<PlanDetails />} />
-          </Route>
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="create" element={<Create />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="all-plans" element={<AllPlans />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="txplan/:id" element={<PlanDetails />} />
+            </Route>
+          </Routes>
+        </AuthProvider>
       </Router>
     </>
   );
