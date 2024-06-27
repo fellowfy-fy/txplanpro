@@ -8,6 +8,7 @@ import AllPlans from "./pages/AllPlans";
 import PlanDetails from "./pages/PlanDetails";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import CreatePlan from "./pages/CreatePlan";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
               <Route path="all-plans" element={<AllPlans />} />
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="createplan" element={<CreatePlan />} />
               <Route path="txplan/:id" element={<PlanDetails />} />
             </Route>
           </Routes>
