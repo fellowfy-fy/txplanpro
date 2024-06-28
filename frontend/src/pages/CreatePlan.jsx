@@ -196,6 +196,37 @@ const CreatePlan = () => {
           )}
         </div>
       </div>
+      {pdfUrl && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg max-w-lg w-full">
+            <iframe
+              src={pdfUrl}
+              width="100%"
+              height="400px"
+              title="PDF Preview"
+            ></iframe>
+            <button
+              onClick={downloadPDF}
+              className="mt-4 py-2 px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+            >
+              Download
+            </button>
+            <button
+              onClick={() => setPdfUrl(null)}
+              className="mt-4 py-2 px-4 rounded-lg bg-red-500 text-white hover:bg-red-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      <div style={{ display: "none" }}>
+        <PdfTemplate
+          initialStatus={initialStatus}
+          desiredStatus={desiredStatus}
+          ref={pdfRef}
+        />
+      </div>
     </div>
   );
 };
