@@ -19,39 +19,25 @@ const CreatePlan = () => {
             />
           </div>
           <h1 className="text-4xl font-medium mb-4">Patient: Inna Sergeeva</h1>
-          <div className="bg-gray-300 rounded-2xl p-4">
-            <div className="flex justify-center space-x-4 mb-4">
-              <button className="py-2 px-4 bg-gray-300 rounded">
-                1 - Dental formula
-              </button>
-              <button className="py-2 px-4 bg-gray-100 rounded">
-                2 - Guidelines
-              </button>
-              <button className="py-2 px-4 bg-gray-100 rounded">
-                3 - Photos
-              </button>
-              <button className="py-2 px-4 bg-gray-100 rounded">
-                4 - Treatment Plan
-              </button>
+          <div className="bg-stone-200 rounded-2xl p-4">
+            <div className="flex justify-center space-x-4 mb-4 border border-neutral-300 rounded-3xl">
+              <button className="py-2 px-4  rounded">1 - Dental formula</button>
+              <button className="py-2 px-4  rounded">2 - Guidelines</button>
+              <button className="py-2 px-4 rounded">3 - Photos</button>
+              <button className="py-2 px-4 rounded">4 - Treatment Plan</button>
             </div>
             <div className="flex flex-col lg:flex-row">
               <div className="lg:w-1/4 mb-4 lg:mb-0">
                 <div className="space-y-4">
-                  <button className="w-full py-2 px-4 bg-gray-200 rounded">
-                    Implant
-                  </button>
-                  <button className="w-full py-2 px-4 bg-gray-200 rounded">
-                    Crown
-                  </button>
-                  <button className="w-full py-2 px-4 bg-gray-200 rounded">
-                    Filling
-                  </button>
-                  <button className="w-full py-2 px-4 bg-gray-200 rounded">
+                  <button className="w-full py-2 px-4  rounded">Implant</button>
+                  <button className="w-full py-2 px-4  rounded">Crown</button>
+                  <button className="w-full py-2 px-4  rounded">Filling</button>
+                  <button className="w-full py-2 px-4  rounded">
                     Extracted
                   </button>
                 </div>
               </div>
-              <div className="lg:w-3/4 p-4 bg-gray-50 rounded-lg">
+              <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
                 <h2 className="text-lg font-medium mb-4">
                   Fill in patient's dental formula
                 </h2>
@@ -61,7 +47,7 @@ const CreatePlan = () => {
                   <br />2 - Click on every tooth to change its status. You can
                   choose several teeth at once to set the same status for them.
                 </p>
-                <button className="py-2 px-4 bg-blue-500 text-white rounded">
+                <button className="py-2 px-4 rounded-lg border border-neutral-300">
                   AI-based fill-in
                 </button>
               </div>
