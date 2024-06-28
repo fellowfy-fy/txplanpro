@@ -1,5 +1,3 @@
-import React from "react";
-
 const Tile = ({ title, description, onClick }) => {
   return (
     <div

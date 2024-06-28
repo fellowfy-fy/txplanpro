@@ -1,9 +1,12 @@
 import React from "react";
 import Tile from "../components/Tile";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   const handleClick = (tile) => {
-    console.log(`Clicked on ${tile}`);
+    navigate(`/txplan/${tile}`);
   };
 
   return (
@@ -20,22 +23,22 @@ const Settings = () => {
           <Tile
             title="Clinic Logo and Photos"
             description="Interior and exterior photos of clinic"
-            onClick={() => handleClick("Clinic Logo and Photos")}
+            onClick={() => handleClick("clinic_logo_and_photos")}
           />
           <Tile
             title="Dental Care Photos"
             description="Photos describing your clinical care processes"
-            onClick={() => handleClick("Dental Care Photos")}
+            onClick={() => handleClick("dental_care_photos")}
           />
           <Tile
             title="Your Team"
             description="Doctors, Admins or Assistants"
-            onClick={() => handleClick("Your Team")}
+            onClick={() => handleClick("your_team")}
           />
           <Tile
             title="Static Texts"
             description="Describe your clinic and your care"
-            onClick={() => handleClick("Static Texts")}
+            onClick={() => handleClick("static_texts")}
           />
           {/* Add more tiles as needed */}
         </div>
