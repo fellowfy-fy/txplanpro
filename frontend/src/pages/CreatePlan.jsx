@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Tooth from "../components/Tooth"; // Ensure this path is correct based on your file structure
+import Tooth from "../components/Tooth";
+import api from "../api/api";
+import PatientForm from "../components/PatientForm";
+import PatientSelect from "../components/PatientSelect";
+import TabNavigation from "../components/TabNavigation";
+import DentalFormula from "../components/DentalFormula";
+import Guidelines from "../components/Guidelines";
+import Photos from "../components/Photos";
+import TreatmentPlan from "../components/TreatmentPlan";
 
 const CreatePlan = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("1 - Dental formula");
   const [initialStatus, setInitialStatus] = useState({});
   const [desiredStatus, setDesiredStatus] = useState({});
+  const [patientName, setPatientName] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
+  const [patients, setPatients] = useState([]);
+  const [currentPatient, setCurrentPatient] = useState(null);
+  const [dentalFormula, setDentalFormula] = useState({});
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const response = await api.get("/patients/get/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPatients(response.data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+
+    fetchPatients();
+  }, []);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -18,6 +49,7 @@ const CreatePlan = () => {
     } else if (step === 4) {
       setDesiredStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
     }
+    setDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
   };
 
   const renderTeethArch = (numTeeth, isTop, step) => {
@@ -48,6 +80,67 @@ const CreatePlan = () => {
     return teeth;
   };
 
+  const handleSave = async () => {
+    const token = localStorage.getItem("access_token");
+    try {
+      const response = await api.post(
+        "/patients/",
+        {
+          name: patientName,
+          diagnosis,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Patient saved:", response.data);
+      setPatients((prevPatients) => [...prevPatients, response.data]);
+      setCurrentPatient(response.data);
+    } catch (error) {
+      console.error("Error saving patient:", error);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (!currentPatient) {
+      console.error("No patient selected");
+      return;
+    }
+    const token = localStorage.getItem("access_token");
+    try {
+      const response = await api.put(
+        `/patients/${currentPatient.id}/update/`,
+        {
+          name: patientName,
+          diagnosis: diagnosis,
+          teeth_status: dentalFormula,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Dental formula updated:", response.data);
+      // Handle success (e.g., navigate to another page or show a success message)
+    } catch (error) {
+      console.error("Error updating dental formula:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
+  const handlePatientChange = (event) => {
+    const patientId = event.target.value;
+    const selectedPatient = patients.find(
+      (patient) => patient.id === parseInt(patientId)
+    );
+    setCurrentPatient(selectedPatient);
+    setPatientName(selectedPatient.name);
+    setDiagnosis(selectedPatient.diagnosis);
+  };
+
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="bg-white rounded-3xl w-4/5 p-8">
@@ -64,77 +157,41 @@ const CreatePlan = () => {
             className="w-full p-2 text-xs bg-white active:text-gray-200 px-4 text-gray-400 rounded-full hover:text-gray-500 border border-gray-900"
           />
         </div>
-        <h1 className="text-4xl font-medium mb-4">Patient: Inna Sergeeva</h1>
-        {["Patient's name", "Diagnosis"].map((placeholder, index) => (
-          <div className="mb-3" key={index}>
-            <input
-              type="text"
-              className="block px-3 py-2 h-[35px] text-gray-400 rounded-full hover:text-gray-500 border border-gray-900 placeholder-opacity-30"
-              placeholder={placeholder}
-            />
-          </div>
-        ))}
-        <div className="bg-stone-100 rounded-2xl p-4">
-          <div className="flex h-[60px] justify-center space-x-4 mb-4 border border-neutral-300 rounded-3xl">
-            {[
-              "1 - Dental formula",
-              "2 - Guidelines",
-              "3 - Photos",
-              "4 - Treatment Plan",
-            ].map((tab) => (
-              <button
-                key={tab}
-                className={`py-2 px-4 rounded ${
-                  activeTab === tab
-                    ? "bg-white justify-items-center h-[50px] rounded-2xl text-gray-900 shadow-md"
-                    : ""
-                }`}
-                onClick={() => handleTabChange(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {activeTab === "1 - Dental formula" && (
-            <div className="flex flex-col lg:flex-row">
-              <div className="lg:w-1/4 mb-4 lg:mb-0">
-                <div className="space-y-4">
-                  {["Implant", "Crown", "Filling", "Extracted"].map(
-                    (text, index) => (
-                      <button
-                        key={index}
-                        className="w-full py-2 px-4 rounded bg-white hover:bg-gray-100"
-                      >
-                        {text}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
-              <div className="relative w-[400px] h-[300px]">
-                {renderTeethArch(16, true, 1)}
-                {renderTeethArch(16, false, 1)}
-              </div>
-              <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
-                <h2 className="text-lg font-medium mb-4">
-                  Fill in patient's dental formula
-                </h2>
-                <p className="text-gray-600 mb-4">
-                  1 - Click on the buttons on the left to choose the right
-                  current status for the tooth or several teeth.
-                  <br />2 - Click on every tooth to change its status. You can
-                  choose several teeth at once to set the same status for them.
-                </p>
-                <button className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100">
-                  Save
-                </button>
-              </div>
+        <div>
+          <PatientForm
+            patientName={patientName}
+            setPatientName={setPatientName}
+            diagnosis={diagnosis}
+            setDiagnosis={setDiagnosis}
+            handleSave={handleSave}
+          />
+          {currentPatient && (
+            <div className="mt-4">
+              <h2 className="text-xl font-medium">
+                Your current patient is {currentPatient.name}
+              </h2>
             </div>
+          )}
+          <PatientSelect
+            patients={patients}
+            handlePatientChange={handlePatientChange}
+          />
+        </div>
+        <div className="bg-stone-100 rounded-2xl p-4 mt-6">
+          <TabNavigation
+            activeTab={activeTab}
+            handleTabChange={handleTabChange}
+          />
+          {activeTab === "1 - Dental formula" && (
+            <DentalFormula
+              renderTeethArch={renderTeethArch}
+              handleToothStatusChange={handleToothStatusChange}
+              handleUpdate={handleUpdate}
+            />
           )}
           {activeTab === "2 - Guidelines" && <Guidelines />}
           {activeTab === "3 - Photos" && <Photos />}
-          {activeTab === "4 - Treatment Plan" && (
+          {activeTab === "4 - TreatmentPlan" && (
             <TreatmentPlan renderTeethArch={renderTeethArch} />
           )}
         </div>
@@ -142,101 +199,5 @@ const CreatePlan = () => {
     </div>
   );
 };
-
-const Guidelines = () => (
-  <div className="p-4">
-    <h2 className="text-xl font-medium mb-4">Guidelines</h2>
-    <p className="text-gray-600">
-      Here you can add guidelines for the treatment plan.
-    </p>
-  </div>
-);
-
-const Photos = () => (
-  <div className="p-4">
-    <h2 className="text-xl font-medium mb-4">Photos</h2>
-    <div className="flex flex-col space-y-4">
-      <div className="flex justify-between items-center">
-        <p className="text-gray-600">
-          Add all your patient's photos and x-rays* to be used in a treatment
-          plan presentation.
-        </p>
-      </div>
-      <p className="text-sm text-gray-500">
-        *- for the best result upload a minimum of 1 panoramic x-ray, 6
-        intraoral and 2 portrait photos. Check "Help" section for guidelines on
-        how to make those photos fast, easy and accurate.
-      </p>
-      <div className="flex space-x-4">
-        <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center">
-          <p className="text-blue-500 mb-2">Drag&Drop files here</p>
-          <button className="text-blue-500 underline">Browse files</button>
-        </div>
-        <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center">
-          <p className="text-blue-500 mb-2">Use from TxPlanPro database</p>
-          <button className="text-blue-500 underline">
-            Upload to database
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const TreatmentPlan = ({ renderTeethArch }) => (
-  <div className="p-4">
-    <h2 className="text-xl font-medium mb-4">Treatment Plan</h2>
-    <div className="flex flex-col lg:flex-row">
-      <div className="lg:w-1/4 mb-4 lg:mb-0">
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            "Implant",
-            "Veneer",
-            "Crown",
-            "Sinus-Lift",
-            "Inlay",
-            "CTG",
-            "Extraction",
-            "Endo",
-          ].map((text, index) => (
-            <button
-              key={index}
-              className="py-2 px-4 rounded bg-white hover:bg-gray-100 border border-gray-300"
-            >
-              {text}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="relative w-[400px] h-[300px]">
-        {renderTeethArch(16, true, 4)}
-        {renderTeethArch(16, false, 4)}
-      </div>
-      <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
-        <h2 className="text-lg font-medium mb-4">
-          Fill in Your desired treatment for every tooth
-        </h2>
-        <p className="text-gray-600 mb-4">
-          This will make your TxPlanPro presentation the most accurate and
-          individualized.
-          <br />
-          You can also skip this step and get the fully Ai-generated plan, which
-          You can edit later.
-        </p>
-        <div className="space-y-2">
-          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-            Skip and generate
-          </button>
-          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-            Ai-based fill-in
-          </button>
-          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-            Generate plan
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 export default CreatePlan;

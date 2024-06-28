@@ -145,4 +145,17 @@ class DoctorDetailView(RetrieveAPIView):
         serializer = DoctorSerializer(doctor)
         return Response(serializer.data)
     
+class PatientDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk, format=None):
+        try:
+            patient = Patient.objects.get(pk=pk)
+            # Check if the authenticated user is the doctor for this patient
+            if patient.doctor.user != request.user:
+                return Response({'error': 'You are not the doctor for this patient'}, status=status.HTTP_403_FORBIDDEN)
+            serializer = PatientSerializer(patient)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Patient.DoesNotExist:
+            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
     

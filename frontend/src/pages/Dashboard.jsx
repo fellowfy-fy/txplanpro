@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Tile from "../components/Tile";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const response = await api.get("/patients/get/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPatients(response.data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+
+    fetchPatients();
+  }, []);
 
   const handleClick = (id) => {
     navigate(`/txplan/${id}`);
@@ -18,18 +38,14 @@ const Dashboard = () => {
           online
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Tile
-            title="Patient: Johanna Doe"
-            description="Details about Johanna's treatment plan"
-            onClick={() => handleClick("johanna-doe")}
-          />
-          <Tile
-            title="Patient: Lisa Ann"
-            description="Details about Lisa's treatment plan"
-            onClick={() => handleClick("lisa-ann-implants")}
-            className=""
-          />
-          {/* Add more tiles as needed */}
+          {patients.map((patient) => (
+            <Tile
+              key={patient.id}
+              title={`Patient: ${patient.name}`}
+              description={`Details about ${patient.name}'s treatment plan`}
+              onClick={() => handleClick(patient.id)}
+            />
+          ))}
         </div>
         <div className="flex justify-center mt-6">
           <button

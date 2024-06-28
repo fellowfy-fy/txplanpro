@@ -18,10 +18,10 @@ class ClinicPhoto(models.Model):
 
 class Patient(models.Model):
     name = models.CharField(max_length=100)
-    diagnosis = models.TextField()
-    xray = models.ImageField(upload_to='patient_xrays/')
-    treatment_plan = models.JSONField()
-    teeth_status = models.JSONField()   
+    diagnosis = models.TextField(null=True)
+    xray = models.ImageField(upload_to='patient_xrays/', null=True)
+    treatment_plan = models.JSONField(null=True)
+    teeth_status = models.JSONField(null=True)   
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='patients')
 
 
