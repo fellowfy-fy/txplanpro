@@ -53,17 +53,15 @@ const CreatePlan = () => {
           />
         </div>
         <h1 className="text-4xl font-medium mb-4">Patient: Inna Sergeeva</h1>
-        {["Patient's name", "Diagnosis", "Doctor", "Patient's name"].map(
-          (placeholder, index) => (
-            <div className="mb-3" key={index}>
-              <input
-                type="text"
-                className="block px-3 py-2 h-[35px] text-gray-400 rounded-full hover:text-gray-500 border border-gray-900 placeholder-opacity-30"
-                placeholder={placeholder}
-              />
-            </div>
-          )
-        )}
+        {["Patient's name", "Diagnosis"].map((placeholder, index) => (
+          <div className="mb-3" key={index}>
+            <input
+              type="text"
+              className="block px-3 py-2 h-[35px] text-gray-400 rounded-full hover:text-gray-500 border border-gray-900 placeholder-opacity-30"
+              placeholder={placeholder}
+            />
+          </div>
+        ))}
         <div className="bg-stone-100 rounded-2xl p-4">
           <div className="flex h-[60px] justify-center space-x-4 mb-4 border border-neutral-300 rounded-3xl">
             {[
