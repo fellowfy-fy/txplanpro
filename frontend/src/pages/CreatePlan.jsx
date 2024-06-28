@@ -75,7 +75,7 @@ const CreatePlan = () => {
   };
 
   return (
-    <div className="flex justify-center bg-gray-100 min-h-screen items-center">
+    <div className="flex justify-center bg-gray-100">
       <div className="bg-white rounded-3xl w-4/5 p-8">
         <h1 className="text-xl font-medium mb-4">
           Create a new complex or local segment treatment plan for Your patient
