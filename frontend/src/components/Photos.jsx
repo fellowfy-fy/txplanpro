@@ -1,4 +1,4 @@
-const Photos = () => (
+const Photos = ({ photos, handleFileChange, handleFileUpload }) => (
   <div className="p-4">
     <h2 className="text-xl font-medium mb-4">Photos</h2>
     <div className="flex flex-col space-y-4">
@@ -15,14 +15,27 @@ const Photos = () => (
       </p>
       <div className="flex space-x-4">
         <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center">
-          <p className="text-blue-500 mb-2">Drag&Drop files here</p>
-          <button className="text-blue-500 underline">Browse files</button>
-        </div>
-        <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center">
-          <p className="text-blue-500 mb-2">Use from TxPlanPro database</p>
-          <button className="text-blue-500 underline">
-            Upload to database
+          <input type="file" multiple onChange={handleFileChange} />
+          <button
+            className="mt-4 py-2 px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+            onClick={handleFileUpload}
+          >
+            Upload Photos
           </button>
+        </div>
+      </div>
+      <div className="mt-4">
+        <h3 className="text-lg font-medium">Uploaded Photos</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+          {photos.map((photo, index) => (
+            <div key={index} className="relative">
+              <img
+                src={photo.photo}
+                alt={`Patient photo ${index + 1}`}
+                className="w-full h-full object-cover rounded-lg shadow-md"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -20,6 +20,8 @@ const CreatePlan = () => {
   const [patients, setPatients] = useState([]);
   const [currentPatient, setCurrentPatient] = useState(null);
   const [dentalFormula, setDentalFormula] = useState({});
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -39,6 +41,14 @@ const CreatePlan = () => {
     fetchPatients();
   }, []);
 
+  useEffect(() => {
+    if (currentPatient) {
+      setPhotos(currentPatient.photos);
+      setInitialStatus(currentPatient.teeth_status || {});
+      setDesiredStatus(currentPatient.treatment_plan || {});
+    }
+  }, [currentPatient]);
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -52,31 +62,61 @@ const CreatePlan = () => {
     setDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
   };
 
-  const renderTeethArch = (numTeeth, isTop, step) => {
+  const renderTeethArch = (numTeeth, step, statusData) => {
     const teeth = [];
     const radius = 100;
     const centerX = 150;
-    const centerY = isTop ? 130 : 180;
 
+    // Render top teeth arch
+    const centerYTop = 130;
     for (let i = 0; i < numTeeth; i++) {
       const angle = (Math.PI / (numTeeth - 1)) * i;
       const x = centerX + radius * Math.cos(angle) - 16;
-      const y = centerY + (isTop ? -1 : 1) * radius * Math.sin(angle) - 16;
+      const y = centerYTop - radius * Math.sin(angle) - 16;
+
+      const status = statusData[`top-${i}`];
 
       teeth.push(
         <Tooth
-          key={i}
-          id={i}
-          className={`absolute transform ${isTop ? "rotate-180" : ""}`}
+          key={`top-${i}`}
+          id={`top-${i}`}
+          className="absolute transform rotate-180"
           style={{
             left: `${x}px`,
             top: `${y}px`,
           }}
           step={step}
+          status={status}
           handleToothStatusChange={handleToothStatusChange}
         />
       );
     }
+
+    // Render bottom teeth arch
+    const centerYBottom = 180;
+    for (let i = 0; i < numTeeth; i++) {
+      const angle = (Math.PI / (numTeeth - 1)) * i;
+      const x = centerX + radius * Math.cos(angle) - 16;
+      const y = centerYBottom + radius * Math.sin(angle) - 16;
+
+      const status = statusData[`bottom-${i}`];
+
+      teeth.push(
+        <Tooth
+          key={`bottom-${i}`}
+          id={`bottom-${i}`}
+          className="absolute transform"
+          style={{
+            left: `${x}px`,
+            top: `${y}px`,
+          }}
+          step={step}
+          status={status}
+          handleToothStatusChange={handleToothStatusChange}
+        />
+      );
+    }
+
     return teeth;
   };
 
@@ -116,6 +156,7 @@ const CreatePlan = () => {
           name: patientName,
           diagnosis: diagnosis,
           teeth_status: dentalFormula,
+          treatment_plan: desiredStatus,
         },
         {
           headers: {
@@ -139,6 +180,40 @@ const CreatePlan = () => {
     setCurrentPatient(selectedPatient);
     setPatientName(selectedPatient.name);
     setDiagnosis(selectedPatient.diagnosis);
+    setInitialStatus(selectedPatient.teeth_status || {});
+    setDesiredStatus(selectedPatient.treatment_plan || {});
+    setPhotos(selectedPatient.photos || []);
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFiles(event.target.files);
+  };
+
+  const handleFileUpload = async () => {
+    if (!currentPatient) {
+      console.error("No patient selected for file upload");
+      return;
+    }
+
+    const token = localStorage.getItem("access_token");
+    const formData = new FormData();
+    formData.append("patient_id", currentPatient.id);
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("photos", selectedFiles[i]);
+    }
+
+    try {
+      const response = await api.post("/patient/upload_photos/", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Files uploaded:", response.data);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
   };
 
   return (
@@ -184,19 +259,35 @@ const CreatePlan = () => {
           />
           {activeTab === "1 - Dental formula" && (
             <DentalFormula
-              renderTeethArch={renderTeethArch}
+              renderTeethArch={(numTeeth, step) =>
+                renderTeethArch(numTeeth, step, initialStatus)
+              }
               handleToothStatusChange={handleToothStatusChange}
               handleUpdate={handleUpdate}
+              initialStatus={initialStatus}
             />
           )}
           {activeTab === "2 - Guidelines" && <Guidelines />}
-          {activeTab === "3 - Photos" && <Photos />}
+          {activeTab === "3 - Photos" && (
+            <Photos
+              photos={photos}
+              handleFileChange={handleFileChange}
+              handleFileUpload={handleFileUpload}
+            />
+          )}
           {activeTab === "4 - TreatmentPlan" && (
-            <TreatmentPlan renderTeethArch={renderTeethArch} />
+            <TreatmentPlan
+              renderTeethArch={(numTeeth, step) =>
+                renderTeethArch(numTeeth, step, desiredStatus)
+              }
+              handleToothStatusChange={handleToothStatusChange}
+              desiredStatus={desiredStatus}
+              handleUpdate={handleUpdate}
+            />
           )}
         </div>
       </div>
-      {pdfUrl && (
+      {/* {pdfUrl && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-4 rounded-lg max-w-lg w-full">
             <iframe
@@ -219,13 +310,13 @@ const CreatePlan = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <div style={{ display: "none" }}>
-        <PdfTemplate
+        {/* <PdfTemplate
           initialStatus={initialStatus}
           desiredStatus={desiredStatus}
           ref={pdfRef}
-        />
+        /> */}
       </div>
     </div>
   );

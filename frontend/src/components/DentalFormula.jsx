@@ -1,8 +1,4 @@
-const DentalFormula = ({
-  renderTeethArch,
-  handleToothStatusChange,
-  handleUpdate,
-}) => (
+const DentalFormula = ({ renderTeethArch, handleUpdate, initialStatus }) => (
   <div className="flex flex-col lg:flex-row">
     <div className="lg:w-1/4 mb-4 lg:mb-0">
       <div className="space-y-4">
@@ -17,8 +13,7 @@ const DentalFormula = ({
       </div>
     </div>
     <div className="relative w-[400px] h-[300px]">
-      {renderTeethArch(16, true, 1)}
-      {renderTeethArch(16, false, 1)}
+      {renderTeethArch(16, 1, initialStatus)}
     </div>
     <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
       <h2 className="text-lg font-medium mb-4">

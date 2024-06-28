@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Tooth = ({ id, className, style, step, handleToothStatusChange }) => {
-  const [status, setStatus] = useState("default");
+const Tooth = ({
+  id,
+  className,
+  style,
+  step,
+  handleToothStatusChange,
+  status: initialStatus,
+}) => {
+  const [status, setStatus] = useState(initialStatus || "default");
+
+  useEffect(() => {
+    setStatus(initialStatus || "default");
+  }, [initialStatus]);
 
   const handleClick = () => {
     const newStatus = status === "default" ? "selected" : "default";

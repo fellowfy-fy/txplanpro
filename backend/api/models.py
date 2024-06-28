@@ -18,7 +18,7 @@ class ClinicPhoto(models.Model):
 
 class Patient(models.Model):
     name = models.CharField(max_length=100)
-    diagnosis = models.TextField(null=True)
+    diagnosis = models.TextField(default="")
     xray = models.ImageField(upload_to='patient_xrays/', null=True)
     treatment_plan = models.JSONField(null=True)
     teeth_status = models.JSONField(null=True)   

@@ -31,6 +31,7 @@ const PatientForm = ({
     ))}
     <button
       className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
+      disabled={!patientName || !diagnosis}
       onClick={handleSave}
     >
       Save Patient Info

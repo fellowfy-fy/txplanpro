@@ -1,4 +1,9 @@
-const TreatmentPlan = ({ renderTeethArch }) => (
+const TreatmentPlan = ({
+  renderTeethArch,
+  handleToothStatusChange,
+  handleUpdate,
+  desiredStatus,
+}) => (
   <div className="p-4">
     <h2 className="text-xl font-medium mb-4">Treatment Plan</h2>
     <div className="flex flex-col lg:flex-row">
@@ -24,8 +29,7 @@ const TreatmentPlan = ({ renderTeethArch }) => (
         </div>
       </div>
       <div className="relative w-[400px] h-[300px]">
-        {renderTeethArch(16, true, 4)}
-        {renderTeethArch(16, false, 4)}
+        {renderTeethArch(16, 4, desiredStatus)}
       </div>
       <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
         <h2 className="text-lg font-medium mb-4">
@@ -35,18 +39,25 @@ const TreatmentPlan = ({ renderTeethArch }) => (
           This will make your TxPlanPro presentation the most accurate and
           individualized.
           <br />
-          You can also skip this step and get the fully Ai-generated plan, which
-          You can edit later.
+          You can also skip this step and get the fully AI-generated plan, which
+          you can edit later.
         </p>
         <div className="space-y-2">
           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
             Skip and generate
           </button>
           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-            Ai-based fill-in
+            AI-based fill-in
           </button>
           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
             Generate plan
+          </button>
+
+          <button
+            className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
+            onClick={handleUpdate}
+          >
+            Save Treatment Plan
           </button>
         </div>
       </div>
