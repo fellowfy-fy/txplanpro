@@ -1,4 +1,3 @@
-import React from "react";
 import Tile from "../components/Tile";
 import { useNavigate } from "react-router-dom";
 
