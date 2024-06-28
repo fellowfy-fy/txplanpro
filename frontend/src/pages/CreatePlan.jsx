@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Tooth from "../components/Tooth";
+import Tooth from "../components/Tooth"; // Ensure this path is correct based on your file structure
 
 const CreatePlan = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("1 - Dental formula");
+  const [initialStatus, setInitialStatus] = useState({});
+  const [desiredStatus, setDesiredStatus] = useState({});
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
-  const renderTeethArch = (numTeeth, isTop) => {
+  const handleToothStatusChange = (id, status, step) => {
+    if (step === 1) {
+      setInitialStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
+    } else if (step === 4) {
+      setDesiredStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
+    }
+  };
+
+  const renderTeethArch = (numTeeth, isTop, step) => {
     const teeth = [];
-    const radius = 150;
-    const centerX = 200;
-    const centerY = isTop ? 50 : 250;
+    const radius = 100;
+    const centerX = 150;
+    const centerY = isTop ? 130 : 180;
 
     for (let i = 0; i < numTeeth; i++) {
       const angle = (Math.PI / (numTeeth - 1)) * i;
@@ -30,6 +40,8 @@ const CreatePlan = () => {
             left: `${x}px`,
             top: `${y}px`,
           }}
+          step={step}
+          handleToothStatusChange={handleToothStatusChange}
         />
       );
     }
@@ -37,7 +49,7 @@ const CreatePlan = () => {
   };
 
   return (
-    <div className="flex justify-center bg-gray-100 min-h-screen items-center">
+    <div className="flex justify-center bg-gray-100">
       <div className="bg-white rounded-3xl w-4/5 p-8">
         <h1 className="text-xl font-medium mb-4">
           Create a new complex or local segment treatment plan for Your patient
@@ -101,8 +113,8 @@ const CreatePlan = () => {
                 </div>
               </div>
               <div className="relative w-[400px] h-[300px]">
-                {renderTeethArch(16, true)}
-                {renderTeethArch(16, false)}
+                {renderTeethArch(16, true, 1)}
+                {renderTeethArch(16, false, 1)}
               </div>
               <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
                 <h2 className="text-lg font-medium mb-4">
@@ -122,7 +134,9 @@ const CreatePlan = () => {
           )}
           {activeTab === "2 - Guidelines" && <Guidelines />}
           {activeTab === "3 - Photos" && <Photos />}
-          {activeTab === "4 - Treatment Plan" && <TreatmentPlan />}
+          {activeTab === "4 - Treatment Plan" && (
+            <TreatmentPlan renderTeethArch={renderTeethArch} />
+          )}
         </div>
       </div>
     </div>
@@ -169,60 +183,60 @@ const Photos = () => (
   </div>
 );
 
-// const TreatmentPlan = ({ renderTeethArch }) => (
-//   <div className="p-4">
-//     <h2 className="text-xl font-medium mb-4">Treatment Plan</h2>
-//     <div className="flex flex-col lg:flex-row">
-//       <div className="lg:w-1/4 mb-4 lg:mb-0">
-//         <div className="grid grid-cols-2 gap-4">
-//           {[
-//             "Implant",
-//             "Veneer",
-//             "Crown",
-//             "Sinus-Lift",
-//             "Inlay",
-//             "CTG",
-//             "Extraction",
-//             "Endo",
-//           ].map((text, index) => (
-//             <button
-//               key={index}
-//               className="py-2 px-4 rounded bg-white hover:bg-gray-100 border border-gray-300"
-//             >
-//               {text}
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-//       <div className="relative w-[400px] h-[300px]">
-//         {renderTeethArch(16, true)}
-//         {renderTeethArch(16, false)}
-//       </div>
-//       <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
-//         <h2 className="text-lg font-medium mb-4">
-//           Fill in Your desired treatment for every tooth
-//         </h2>
-//         <p className="text-gray-600 mb-4">
-//           This will make your TxPlanPro presentation the most accurate and
-//           individualized.
-//           <br />
-//           You can also skip this step and get the fully Ai-generated plan, which
-//           You can edit later.
-//         </p>
-//         <div className="space-y-2">
-//           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-//             Skip and generate
-//           </button>
-//           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-//             Ai-based fill-in
-//           </button>
-//           <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
-//             Generate plan
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
+const TreatmentPlan = ({ renderTeethArch }) => (
+  <div className="p-4">
+    <h2 className="text-xl font-medium mb-4">Treatment Plan</h2>
+    <div className="flex flex-col lg:flex-row">
+      <div className="lg:w-1/4 mb-4 lg:mb-0">
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            "Implant",
+            "Veneer",
+            "Crown",
+            "Sinus-Lift",
+            "Inlay",
+            "CTG",
+            "Extraction",
+            "Endo",
+          ].map((text, index) => (
+            <button
+              key={index}
+              className="py-2 px-4 rounded bg-white hover:bg-gray-100 border border-gray-300"
+            >
+              {text}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="relative w-[400px] h-[300px]">
+        {renderTeethArch(16, true, 4)}
+        {renderTeethArch(16, false, 4)}
+      </div>
+      <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
+        <h2 className="text-lg font-medium mb-4">
+          Fill in Your desired treatment for every tooth
+        </h2>
+        <p className="text-gray-600 mb-4">
+          This will make your TxPlanPro presentation the most accurate and
+          individualized.
+          <br />
+          You can also skip this step and get the fully Ai-generated plan, which
+          You can edit later.
+        </p>
+        <div className="space-y-2">
+          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
+            Skip and generate
+          </button>
+          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
+            Ai-based fill-in
+          </button>
+          <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
+            Generate plan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 export default CreatePlan;

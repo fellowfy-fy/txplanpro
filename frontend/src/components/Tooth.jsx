@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const Tooth = ({ id, className, style }) => {
+const Tooth = ({ id, className, style, step, handleToothStatusChange }) => {
   const [status, setStatus] = useState("default");
 
   const handleClick = () => {
-    setStatus((prevStatus) =>
-      prevStatus === "default" ? "selected" : "default"
-    );
+    const newStatus = status === "default" ? "selected" : "default";
+    setStatus(newStatus);
+    handleToothStatusChange(id, newStatus, step);
   };
 
   const getColor = () => {
@@ -16,7 +16,7 @@ const Tooth = ({ id, className, style }) => {
   return (
     <div
       onClick={handleClick}
-      className={`w-8 h-8 ${getColor()} border border-gray-400 rounded-full cursor-pointer ${className}`}
+      className={`w-5 h-5 ${getColor()} border border-gray-400 rounded-full cursor-pointer ${className}`}
       style={style}
     ></div>
   );
