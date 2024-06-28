@@ -8,9 +8,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import FileResponse, Http404
-from django.contrib.auth.decorators import login_required
-from .pdf import generate_pdf_file
-import os
 
 class RegisterView(CreateAPIView):
     queryset = Doctor.objects.all()
@@ -147,36 +144,5 @@ class DoctorDetailView(RetrieveAPIView):
         doctor = get_object_or_404(Doctor, user=user)
         serializer = DoctorSerializer(doctor)
         return Response(serializer.data)
-    
-@login_required
-def generate_pdf(request, patient_id):
-    # Get the logged-in user
-    user = request.user
-
-    # Get the associated doctor
-    try:
-        doctor = Doctor.objects.get(user=user)
-    except Doctor.DoesNotExist:
-        raise Http404("No doctor found for this user")
-
-    # Get the patient
-    patient = get_object_or_404(Patient, pk=patient_id)  # Adjust according to your Patient model
-
-    # Fetch photos
-    clinic_photos = [f.file.path for f in ClinicPhoto.objects.filter(doctor=doctor)]
-    patient_photos = [f.file.path for f in PatientPhoto.objects.filter(patient=patient)]
-    break_photo = doctor.break_photo.path if doctor.break_photo else None
-
-    text_data = [
-        f"Clinic Report for Dr. {doctor.user.username}",
-        "Date: 2024-06-25",
-        "Diagnosis: Healthy",
-        "Treatment Plan: Regular Checkups"
-    ]
-
-    pdf_buffer = generate_pdf_file(clinic_photos, patient_photos, break_photo, text_data)
-    return FileResponse(pdf_buffer, as_attachment=True, filename='treatment_plan.pdf')
-    
-    
     
     
