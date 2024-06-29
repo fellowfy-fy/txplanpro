@@ -24,7 +24,6 @@ class Patient(models.Model):
     teeth_status = models.JSONField(null=True)   
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='patients')
 
-
     def __str__(self):
         return self.name
 

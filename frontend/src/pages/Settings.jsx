@@ -5,7 +5,7 @@ const Settings = () => {
   const navigate = useNavigate();
 
   const handleClick = (tile) => {
-    navigate(`/txplan/${tile}`);
+    navigate(`/settings/${tile}`);
   };
 
   return (
@@ -20,19 +20,9 @@ const Settings = () => {
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Tile
-            title="Clinic Logo and Photos"
+            title="Clinic Photos"
             description="Interior and exterior photos of clinic"
             onClick={() => handleClick("clinic_logo_and_photos")}
-          />
-          <Tile
-            title="Dental Care Photos"
-            description="Photos describing your clinical care processes"
-            onClick={() => handleClick("dental_care_photos")}
-          />
-          <Tile
-            title="Your Team"
-            description="Doctors, Admins or Assistants"
-            onClick={() => handleClick("your_team")}
           />
           <Tile
             title="Static Texts"

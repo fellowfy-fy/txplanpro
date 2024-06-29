@@ -11,6 +11,7 @@ import Register from "./pages/Register.jsx";
 import CreatePlan from "./pages/CreatePlan";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ClinicPhotosUpload from "./pages/ClinicPhotosUpload.jsx";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
                 <Route path="all-plans" element={<AllPlans />} />
                 <Route path="createplan" element={<CreatePlan />} />
                 <Route path="txplan/:id" element={<PlanDetails />} />
+                <Route
+                  path="settings/clinic_logo_and_photos"
+                  element={<ClinicPhotosUpload />}
+                />
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />

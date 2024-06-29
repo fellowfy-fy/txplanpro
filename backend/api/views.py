@@ -142,7 +142,7 @@ class DoctorDetailView(RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         doctor = get_object_or_404(Doctor, user=user)
-        serializer = DoctorSerializer(doctor)
+        serializer = DoctorSerializer(doctor, context={'request': request})
         return Response(serializer.data)
     
 class PatientDetailView(APIView):
