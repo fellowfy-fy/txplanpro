@@ -10,6 +10,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import CreatePlan from "./pages/CreatePlan";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
   return (
@@ -18,14 +19,16 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="create" element={<Create />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="all-plans" element={<AllPlans />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="create" element={<Create />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="all-plans" element={<AllPlans />} />
+                <Route path="createplan" element={<CreatePlan />} />
+                <Route path="txplan/:id" element={<PlanDetails />} />
+              </Route>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
-              <Route path="createplan" element={<CreatePlan />} />
-              <Route path="txplan/:id" element={<PlanDetails />} />
             </Route>
           </Routes>
         </AuthProvider>

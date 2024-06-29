@@ -19,7 +19,7 @@ api.interceptors.response.use(
       error.response.status === 401 &&
       originalRequest.url === "token/refresh/"
     ) {
-      navigate("/login/");
+      navigate("/login");
       return Promise.reject(error);
     }
 

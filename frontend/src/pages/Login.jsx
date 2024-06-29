@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api/api";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { setAuth, auth } = useAuth();
@@ -8,6 +9,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -45,7 +47,7 @@ const Login = () => {
         clinic_photos,
         break_photo,
       });
-
+      navigate("/dashboard");
       console.log(auth);
     } catch (error) {
       console.error("There was an error logging in:", error);

@@ -1,8 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setAuth({});
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    navigate("/login");
+  };
 
   return (
     <div className="w-64 h-screen bg-gray-100  fixed flex flex-col">
@@ -73,34 +81,47 @@ const Sidebar = () => {
             <p className="p-4 font-light text-[14px]">
               Dr. {auth?.username ? auth.username : "John Doe"}
             </p>
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `block py-2.5 px-4 text-gray-900 ${
-                    isActive
-                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
-                      : "hover:text-gray-500"
-                  }`
-                }
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  `block py-2.5 px-4 text-gray-900 ${
-                    isActive
-                      ? "bg-gray-900 text-gray-100 rounded-[48px]"
-                      : "hover:text-gray-500"
-                  }`
-                }
-              >
-                Register
-              </NavLink>
-            </li>
+            {!auth?.username ? (
+              <>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      `block py-2.5 px-4 text-gray-900 ${
+                        isActive
+                          ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                          : "hover:text-gray-500"
+                      }`
+                    }
+                  >
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/register"
+                    className={({ isActive }) =>
+                      `block py-2.5 px-4 text-gray-900 ${
+                        isActive
+                          ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                          : "hover:text-gray-500"
+                      }`
+                    }
+                  >
+                    Register
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block py-2.5 px-4 text-gray-900 hover:text-gray-500"
+                >
+                  Logout
+                </button>
+              </li>
+            )}
             <li>
               <NavLink
                 to="/create"
