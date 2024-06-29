@@ -155,7 +155,7 @@ const CreatePlan = () => {
         {
           name: patientName,
           diagnosis: diagnosis,
-          teeth_status: dentalFormula,
+          teeth_status: initialStatus,
           treatment_plan: desiredStatus,
         },
         {
