@@ -9,7 +9,6 @@ class ClinicPhotoSerializer(serializers.ModelSerializer):
         model = ClinicPhoto
         fields = ['photo']
         
-    
     def get_photo_url(self, obj):
         request = self.context.get('request')
         if obj.photo:
@@ -22,7 +21,16 @@ class ClinicPhotoSerializer(serializers.ModelSerializer):
 class PatientPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientPhoto
-        fields = ['photo']
+        fields = ['id', 'photo']
+        
+    def get_photo_url(self, obj):
+        request = self.context.get('request')
+        if obj.photo:
+            photo_url = obj.photo.url
+            if request is not None:
+                return request.build_absolute_uri(photo_url)
+            return photo_url
+        return None
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

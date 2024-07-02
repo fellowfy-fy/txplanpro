@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import ScribbleCanvas from "./ScribbleCanvas";
 import api from "../api/api";
 
 const PlanDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [patient, setPatient] = useState(null);
+  const [editingPhotoUrl, setEditingPhotoUrl] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [editingPhotoId, setEditingPhotoId] = useState(null);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -29,6 +33,40 @@ const PlanDetails = () => {
     return <div>Loading...</div>;
   }
 
+  const handleEditPhotoClick = (url, photoId) => {
+    setEditingPhotoUrl(url);
+    setEditingPhotoId(photoId);
+  };
+
+  const handleSave = async () => {
+    if (!imageData) return;
+
+    const blob = await (await fetch(imageData)).blob();
+    const formData = new FormData();
+    formData.append("photo", blob, "edited-image.png");
+
+    try {
+      const token = localStorage.getItem("access_token");
+      await api.put(`/patient_photo/${editingPhotoId}/update/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Image saved successfully!");
+      setEditingPhotoUrl(null);
+      setEditingPhotoId(null);
+    } catch (error) {
+      console.error("Error saving image:", error);
+      alert("Error saving image!");
+    }
+  };
+
+  const handleClose = () => {
+    setEditingPhotoUrl(null);
+    setEditingPhotoId(null);
+  };
+
   return (
     <div className="p-4">
       <button
@@ -45,12 +83,14 @@ const PlanDetails = () => {
             className="w-full h-auto"
           />
           {patient.photos.map((photo, index) => (
-            <img
-              key={index}
-              src={photo.photo}
-              alt={`Photo ${index}`}
-              className="w-full h-auto mt-2"
-            />
+            <div key={index}>
+              <img
+                src={photo.photo}
+                alt={`Photo ${index}`}
+                className="w-full h-auto mt-2"
+                onClick={() => handleEditPhotoClick(photo.photo, photo.id)}
+              />
+            </div>
           ))}
         </div>
         <div className="flex-1 md:ml-4">
@@ -76,6 +116,30 @@ const PlanDetails = () => {
           </button>
         </div>
       </div>
+      {editingPhotoUrl && (
+        <div className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-4 rounded shadow-lg">
+            <div className="flex justify-between">
+              <button
+                onClick={handleClose}
+                className="mb-4 text-red-500 hover:underline"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSave}
+                className="mb-4 text-green-500 hover:underline"
+              >
+                Save
+              </button>
+            </div>
+            <ScribbleCanvas
+              imageUrl={editingPhotoUrl}
+              setImageData={setImageData}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
