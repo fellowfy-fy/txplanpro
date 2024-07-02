@@ -12,6 +12,7 @@ import CreatePlan from "./pages/CreatePlan";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ClinicPhotosUpload from "./pages/ClinicPhotosUpload.jsx";
+import PatientPDF from "./sandbox/PatinetPDFPage.jsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="sandbox" element={<PatientPDF />} />
             </Route>
           </Routes>
         </AuthProvider>
