@@ -47,7 +47,7 @@ const Login = () => {
         clinic_photos,
         break_photo,
       });
-      navigate("/dashboard");
+      navigate("/");
       console.log(auth);
     } catch (error) {
       console.error("There was an error logging in:", error);
