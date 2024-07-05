@@ -65,7 +65,7 @@ const Login = () => {
               value={formData.username}
               onChange={handleChange}
               placeholder="Username"
-              className="p-2 text-[12px] bg-white active:text-gray-200 block px-4 text-gray-400 rounded-[48px] hover:text-gray-500 border border-gray-900"
+              className="p-2 text-[12px] bg-white block px-4 text-gray-900 rounded-[48px] border border-gray-900"
             />
           </div>
           <div className="py-3">
@@ -75,7 +75,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
-              className="p-2 text-[12px] bg-white active:text-gray-200 block px-4 text-gray-400 rounded-[48px] hover:text-gray-500 border border-gray-900"
+              className="p-2 text-[12px] bg-white block px-4 text-gray-900 rounded-[48px] border border-gray-900"
             />
           </div>
           <button

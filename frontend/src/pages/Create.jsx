@@ -32,12 +32,12 @@ const Create = () => {
           <Button
             title="Digital Smile Design"
             description="The core of your complex planning"
-            onClick={() => handleClick("digital-smile-design")}
+            // onClick={() => handleClick("digital-smile-design")}
           />
           <Button
             title="Local Treatment Plan"
             description="Fast and easy for ongoing treatments"
-            onClick={() => handleClick("local-treatment-plan")}
+            // onClick={() => handleClick("local-treatment-plan")}
           />
           {/* Add more buttons as needed */}
         </div>

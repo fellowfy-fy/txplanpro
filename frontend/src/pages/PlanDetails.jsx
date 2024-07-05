@@ -84,11 +84,7 @@ const PlanDetails = () => {
       {!showReport && (
         <div className="flex flex-col md:flex-row">
           <div className="flex-1 mb-4 md:mb-0">
-            <img
-              src={patient.xray}
-              alt={patient.name}
-              className="w-full h-auto"
-            />
+            <p>Click on the photo to edit</p>
             {patient.photos.map((photo, index) => (
               <div key={index}>
                 <img
@@ -102,7 +98,7 @@ const PlanDetails = () => {
           </div>
           <div className="flex-1 md:ml-4">
             <h1 className="text-2xl font-bold mb-2">Patient: {patient.name}</h1>
-            <p className="text-gray-700 mb-4">{patient.diagnosis}</p>
+            <p className="text-gray-700 mb-4">Diagnosis: {patient.diagnosis}</p>
             <div className="bg-gray-100 p-4 rounded-lg mb-4">
               <h2 className="text-lg font-bold mb-2">Treatment Plan</h2>
               <pre className="text-gray-600">

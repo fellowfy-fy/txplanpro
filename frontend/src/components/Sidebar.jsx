@@ -21,11 +21,58 @@ const Sidebar = () => {
         <ul>
           <p className="p-4 font-light text-[14px]">MENU</p>
           <div className="pl-4 text-[14px]">
+            {auth?.username ? (
+              <p className="p-4 font-light text-[14px]">Dr. {auth.username}</p>
+            ) : (
+              <></>
+            )}
+
             <li>
+              {!auth?.username ? (
+                <>
+                  <li>
+                    <NavLink
+                      to="/login"
+                      className={({ isActive }) =>
+                        `block py-2.5 px-4 ${
+                          isActive
+                            ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                            : "hover:text-gray-500"
+                        }`
+                      }
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/register"
+                      className={({ isActive }) =>
+                        `block py-2.5 px-4  ${
+                          isActive
+                            ? "bg-gray-900 text-gray-100 rounded-[48px]"
+                            : "hover:text-gray-500"
+                        }`
+                      }
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="block py-2.5 px-4 text-gray-900 hover:text-gray-500"
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
               <NavLink
-                to="/dashboard"
+                to="/"
                 className={({ isActive }) =>
-                  `block py-2.5 px-4 text-gray-900 ${
+                  `block py-2.5 px-4 ${
                     isActive
                       ? "bg-gray-900 text-gray-100 rounded-[48px]"
                       : "hover:text-gray-500"
@@ -35,7 +82,7 @@ const Sidebar = () => {
                 Dashboard
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="/all-plans"
                 className={({ isActive }) =>
@@ -48,7 +95,7 @@ const Sidebar = () => {
               >
                 All Plans
               </NavLink>
-            </li>
+            </li> */}
             {/* <li>
               <NavLink
                 to="/present"
@@ -78,55 +125,11 @@ const Sidebar = () => {
               </NavLink>
             </li> */}
             {/* плейсхолдер */}
-            <p className="p-4 font-light text-[14px]">
-              Dr. {auth?.username ? auth.username : "John Doe"}
-            </p>
-            {!auth?.username ? (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      `block py-2.5 px-4 text-gray-900 ${
-                        isActive
-                          ? "bg-gray-900 text-gray-100 rounded-[48px]"
-                          : "hover:text-gray-500"
-                      }`
-                    }
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/register"
-                    className={({ isActive }) =>
-                      `block py-2.5 px-4 text-gray-900 ${
-                        isActive
-                          ? "bg-gray-900 text-gray-100 rounded-[48px]"
-                          : "hover:text-gray-500"
-                      }`
-                    }
-                  >
-                    Register
-                  </NavLink>
-                </li>
-              </>
-            ) : (
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="block py-2.5 px-4 text-gray-900 hover:text-gray-500"
-                >
-                  Logout
-                </button>
-              </li>
-            )}
             <li>
               <NavLink
                 to="/create"
                 className={({ isActive }) =>
-                  `block py-2.5 px-4 text-gray-900 ${
+                  `block py-2.5 px-4 ${
                     isActive
                       ? "bg-gray-900 text-gray-100 rounded-[48px]"
                       : "hover:text-gray-500"
@@ -154,7 +157,7 @@ const Sidebar = () => {
               <NavLink
                 to="/settings"
                 className={({ isActive }) =>
-                  `block py-2.5 px-4 text-gray-900 ${
+                  `block py-2.5 px-4 ${
                     isActive
                       ? "bg-gray-900 text-gray-100 rounded-[48px]"
                       : "hover:text-gray-500"

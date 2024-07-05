@@ -45,7 +45,7 @@ const ClinicPhotosUpload = () => {
   return (
     <div className="p-8 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Upload Clinic Photos</h1>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="flex flex-row flex-wrap gap-4 mb-4">
         {auth.clinic_photos && auth.clinic_photos.length > 0 ? (
           auth.clinic_photos.map((photo, index) => (
             <img
