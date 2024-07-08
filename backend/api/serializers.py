@@ -49,13 +49,21 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['user', 'userpic', 'clinic_photos', 'break_photo']
+        fields = ['user', 'userpic', 'clinic_photos', 'break_photo', 'static_text']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         doctor = Doctor.objects.create(user=user, **validated_data)
         return doctor
+
+class DoctorUpdateSerializer(serializers.ModelSerializer):
+    clinic_photos = ClinicPhotoSerializer(many=True, read_only=True)
+    break_photo = serializers.ImageField(required=False)
+
+    class Meta:
+        model = Doctor
+        fields = ['userpic', 'clinic_photos', 'break_photo', 'static_text']
 
 class PatientSerializer(serializers.ModelSerializer):
     photos = PatientPhotoSerializer(many=True, read_only=True)

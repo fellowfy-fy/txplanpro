@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView
-from .serializers import DoctorSerializer, PatientSerializer, ClinicPhotoSerializer, PatientPhotoSerializer
+from .serializers import DoctorSerializer, PatientSerializer, ClinicPhotoSerializer, PatientPhotoSerializer, DoctorUpdateSerializer
 from .models import Doctor, Patient, ClinicPhoto, PatientPhoto
 from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -129,12 +129,38 @@ class UpdatePatient(UpdateAPIView):
 
 class UpdateDoctor(UpdateAPIView):
     queryset = Doctor.objects.all()
-    serializer_class = DoctorSerializer
+    serializer_class = DoctorUpdateSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        # Ensure that the authenticated user is the doctor being updated
-        return Doctor.objects.get(user=self.request.user)
+        try:
+            return Doctor.objects.get(user=self.request.user)
+        except Doctor.DoesNotExist:
+            return None
+
+    def patch(self, request, *args, **kwargs):
+        doctor = self.get_object()
+        if not doctor:
+            return Response({"error": "Doctor not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(doctor, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        doctor = self.get_object()
+        if not doctor:
+            return Response({"error": "Doctor not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(doctor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DoctorDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
