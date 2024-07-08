@@ -29,7 +29,11 @@ const Settings = () => {
             description="Describe your clinic and your care"
             onClick={() => handleClick("static_texts")}
           />
-          {/* Add more tiles as needed */}
+          <Tile
+            title="Prices"
+            description="Add Your prices here"
+            onClick={() => handleClick("prices")}
+          />
         </div>
       </div>
     </div>

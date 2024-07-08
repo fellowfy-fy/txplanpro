@@ -25,7 +25,7 @@ const Create = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
           <Button
-            title="Complex Treatment Plan"
+            title="Surgical Treatment Plan"
             description="Create fast, professional and visual appealing Dental Treatment Plans online in just several minutes. Increase patient's trust and your clinic's brand identity."
             onClick={() => handleClick("createplan")}
           />
