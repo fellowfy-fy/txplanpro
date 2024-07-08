@@ -19,9 +19,9 @@ function App() {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route element={<Layout />}>
               <Route element={<ProtectedRoute />}>
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="/" element={<Dashboard />} />
                 <Route path="create" element={<Create />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="all-plans" element={<AllPlans />} />

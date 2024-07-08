@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ScribbleCanvas from "./ScribbleCanvas";
 import api from "../api/api";
+import PatientReport from "../components/PatientReport";
 
 const PlanDetails = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const PlanDetails = () => {
   const [editingPhotoUrl, setEditingPhotoUrl] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [editingPhotoId, setEditingPhotoId] = useState(null);
+  const [showReport, setShowReport] = useState(false);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -67,6 +69,10 @@ const PlanDetails = () => {
     setEditingPhotoId(null);
   };
 
+  const handleDownloadClick = () => {
+    setShowReport(true);
+  };
+
   return (
     <div className="p-4">
       <button
@@ -75,47 +81,48 @@ const PlanDetails = () => {
       >
         &lt; Back to Plans
       </button>
-      <div className="flex flex-col md:flex-row">
-        <div className="flex-1 mb-4 md:mb-0">
-          <img
-            src={patient.xray}
-            alt={patient.name}
-            className="w-full h-auto"
-          />
-          {patient.photos.map((photo, index) => (
-            <div key={index}>
-              <img
-                src={photo.photo}
-                alt={`Photo ${index}`}
-                className="w-full h-auto mt-2"
-                onClick={() => handleEditPhotoClick(photo.photo, photo.id)}
-              />
+      {!showReport && (
+        <div className="flex flex-col md:flex-row">
+          <div className="flex-1 mb-4 md:mb-0">
+            <p>Click on the photo to edit</p>
+            {patient.photos.map((photo, index) => (
+              <div key={index}>
+                <img
+                  src={photo.photo}
+                  alt={`Photo ${index}`}
+                  className="w-full h-auto mt-2"
+                  onClick={() => handleEditPhotoClick(photo.photo, photo.id)}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex-1 md:ml-4">
+            <h1 className="text-2xl font-bold mb-2">Patient: {patient.name}</h1>
+            <p className="text-gray-700 mb-4">Diagnosis: {patient.diagnosis}</p>
+            <div className="bg-gray-100 p-4 rounded-lg mb-4">
+              <h2 className="text-lg font-bold mb-2">Treatment Plan</h2>
+              <pre className="text-gray-600">
+                {JSON.stringify(patient.treatment_plan, null, 2)}
+              </pre>
             </div>
-          ))}
-        </div>
-        <div className="flex-1 md:ml-4">
-          <h1 className="text-2xl font-bold mb-2">Patient: {patient.name}</h1>
-          <p className="text-gray-700 mb-4">{patient.diagnosis}</p>
-          <div className="bg-gray-100 p-4 rounded-lg mb-4">
-            <h2 className="text-lg font-bold mb-2">Treatment Plan</h2>
-            <pre className="text-gray-600">
-              {JSON.stringify(patient.treatment_plan, null, 2)}
-            </pre>
+            <div className="bg-gray-100 p-4 rounded-lg mb-4">
+              <h2 className="text-lg font-bold mb-2">Teeth Status</h2>
+              <pre className="text-gray-600">
+                {JSON.stringify(patient.teeth_status, null, 2)}
+              </pre>
+            </div>
+            <button
+              className="bg-black text-white py-2 px-4 rounded w-full mb-2"
+              onClick={handleDownloadClick}
+            >
+              Download/Send
+            </button>
+            <button className="bg-green-500 text-white py-2 px-4 rounded w-full">
+              Edit Plan
+            </button>
           </div>
-          <div className="bg-gray-100 p-4 rounded-lg mb-4">
-            <h2 className="text-lg font-bold mb-2">Teeth Status</h2>
-            <pre className="text-gray-600">
-              {JSON.stringify(patient.teeth_status, null, 2)}
-            </pre>
-          </div>
-          <button className="bg-black text-white py-2 px-4 rounded w-full mb-2">
-            Download/Send
-          </button>
-          <button className="bg-green-500 text-white py-2 px-4 rounded w-full">
-            Edit Plan
-          </button>
         </div>
-      </div>
+      )}
       {editingPhotoUrl && (
         <div className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-4 rounded shadow-lg">
@@ -140,6 +147,7 @@ const PlanDetails = () => {
           </div>
         </div>
       )}
+      {showReport && <PatientReport patient={patient} />}
     </div>
   );
 };

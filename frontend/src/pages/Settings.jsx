@@ -1,8 +1,10 @@
 import Tile from "../components/Tile";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Settings = () => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   const handleClick = (tile) => {
     navigate(`/settings/${tile}`);
@@ -15,9 +17,7 @@ const Settings = () => {
           Upload Your clinic specific photos and information to be used in Your
           treatment plans templates
         </h1>
-        <h1 className="text-5xl font-medium mb-4">
-          dr. JOHN DOE, Smile-clinic Ltd.
-        </h1>
+        <h1 className="text-5xl font-medium mb-4">Dr. {auth.username}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Tile
             title="Clinic Photos"
