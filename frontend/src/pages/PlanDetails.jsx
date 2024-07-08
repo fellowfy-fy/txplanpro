@@ -42,10 +42,11 @@ const PlanDetails = () => {
 
   const handleSave = async () => {
     if (!imageData) return;
+    const fileName = editingPhotoUrl.split("/").pop();
 
     const blob = await (await fetch(imageData)).blob();
     const formData = new FormData();
-    formData.append("photo", blob, "edited-image.png");
+    formData.append("photo", blob, fileName);
 
     try {
       const token = localStorage.getItem("access_token");

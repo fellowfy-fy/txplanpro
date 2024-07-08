@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import FileResponse, Http404
+import os
+from django.core.files import File
 
 class RegisterView(CreateAPIView):
     queryset = Doctor.objects.all()
@@ -28,7 +30,22 @@ class CreatePatient(CreateAPIView):
 
     def perform_create(self, serializer):
         doctor = Doctor.objects.get(user=self.request.user)
-        serializer.save(doctor=doctor)
+        patient = serializer.save(doctor=doctor)
+        
+        # Define the default photo names and paths
+        default_photos = {
+            "Upper Occlusal": "static/default_photos/upper_occlusal.png",
+            "Lower Occlusal": "static/default_photos/lower_occlusal.png",
+            "Side Left Photo": "static/default_photos/side_left_photo.png",
+            "Side Right Photo": "static/default_photos/side_right_photo.png",
+            "Panoramic X-ray": "static/default_photos/panoramic_xray.png",
+        }
+
+        # Create PatientPhoto instances
+        for name, path in default_photos.items():
+            with open(path, 'rb') as photo_file:
+                patient_photo = PatientPhoto(patient=patient)
+                patient_photo.photo.save(os.path.basename(path), File(photo_file), save=True)
 
 class ListPatient(ListAPIView):
     permission_classes = [IsAuthenticated]

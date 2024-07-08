@@ -269,11 +269,7 @@ const CreatePlan = () => {
           )}
           {activeTab === "2 - Guidelines" && <Guidelines />}
           {activeTab === "3 - Photos" && (
-            <Photos
-              photos={photos}
-              handleFileChange={handleFileChange}
-              handleFileUpload={handleFileUpload}
-            />
+            <Photos photos={photos} handleFileUpload={handleFileUpload} />
           )}
           {activeTab === "4 - TreatmentPlan" && (
             <TreatmentPlan
