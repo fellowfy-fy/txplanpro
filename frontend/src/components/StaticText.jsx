@@ -76,7 +76,7 @@ const StaticText = () => {
         <button
           type="submit"
           disabled={loading}
-          className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="py-2 px-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
         >
           {loading ? "Updating..." : "Update Static Text"}
         </button>

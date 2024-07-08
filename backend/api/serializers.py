@@ -3,6 +3,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Doctor, Patient, ClinicPhoto, PatientPhoto
+from django.core.files import File
+import os
 
 class ClinicPhotoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,6 +57,20 @@ class DoctorSerializer(serializers.ModelSerializer):
         user_data = validated_data.pop('user')
         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         doctor = Doctor.objects.create(user=user, **validated_data)
+        
+        # Define the default photo names and paths
+        default_photos = {
+            "Intro": "static/default_photos/intro.jpg",
+            "Vision": "static/default_photos/vision.jpg",
+            "Break": "static/default_photos/break.jpg",
+        }
+
+        # Create ClinicPhoto instances
+        for name, path in default_photos.items():
+            with open(path, 'rb') as photo_file:
+                clinic_photo = ClinicPhoto(doctor=doctor)
+                clinic_photo.photo.save(os.path.basename(path), File(photo_file), save=True)
+
         return doctor
 
 class DoctorUpdateSerializer(serializers.ModelSerializer):
