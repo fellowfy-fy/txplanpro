@@ -29,10 +29,7 @@ const ClinicPhotosUpload = () => {
       });
       setAuth((prevAuth) => ({
         ...prevAuth,
-        clinic_photos: [
-          ...prevAuth.clinic_photos,
-          ...response.data.clinic_photos,
-        ],
+        clinic_photos: [...response.data.clinic_photos],
       }));
     } catch (error) {
       console.error("Error uploading photos:", error);
@@ -42,18 +39,47 @@ const ClinicPhotosUpload = () => {
     }
   };
 
+  const handleDelete = async (photoId) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      await api.delete("doctor/delete_photos/", {
+        data: { photo_ids: [photoId] },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        clinic_photos: prevAuth.clinic_photos.filter(
+          (photo) => photo.id !== photoId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+      alert("Failed to delete photo.");
+    }
+  };
+
   return (
     <div className="p-8 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-4">Upload Clinic Photos</h1>
       <div className="flex flex-row flex-wrap gap-4 mb-4">
         {auth.clinic_photos && auth.clinic_photos.length > 0 ? (
           auth.clinic_photos.map((photo, index) => (
-            <img
-              key={index}
-              src={photo.photo}
-              alt={`Clinic Photo ${index + 1}`}
-              className=" rounded-lg shadow-sm w-[100px] h-auto"
-            />
+            <div key={index} className="relative">
+              <img
+                src={photo.photo}
+                alt={`Clinic Photo ${index + 1}`}
+                className="rounded-lg shadow-sm w-[100px] h-auto"
+              />
+              <button
+                onClick={() => handleDelete(photo.id)}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+              >
+                X
+              </button>
+            </div>
           ))
         ) : (
           <p>No clinic photos available.</p>

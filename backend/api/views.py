@@ -44,18 +44,32 @@ class DoctorPhotoUploadView(APIView):
     def post(self, request, *args, **kwargs):
         doctor = Doctor.objects.get(user=request.user)
         
-        # Handle break photo
-        break_photo = request.FILES.get('break_photo')
-        if break_photo:
-            doctor.break_photo = break_photo
-            doctor.save()
-
-        # Handle clinic photos
         clinic_photos = request.FILES.getlist('clinic_photos')
         for photo in clinic_photos:
             ClinicPhoto.objects.create(doctor=doctor, photo=photo)
+        
+        serializer = DoctorSerializer(doctor, context={'request': request})
 
-        serializer = DoctorSerializer(doctor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DoctorPhotoDeleteView(APIView):
+    
+    def delete(self, request, *args, **kwargs):
+        doctor = Doctor.objects.get(user=request.user)
+        photo_ids = request.data.get('photo_ids', [])
+        
+        if not photo_ids:
+            return Response({"error": "No photo IDs provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+        for photo_id in photo_ids:
+            try:
+                photo = ClinicPhoto.objects.get(id=photo_id, doctor=doctor)
+                photo.delete()
+            except ClinicPhoto.DoesNotExist:
+                continue
+        
+        serializer = DoctorSerializer(doctor, context={'request': request})
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PatientPhotoUploadView(APIView):

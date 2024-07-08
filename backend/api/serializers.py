@@ -7,7 +7,7 @@ from .models import Doctor, Patient, ClinicPhoto, PatientPhoto
 class ClinicPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClinicPhoto
-        fields = ['photo']
+        fields = ['id' ,'photo']
         
     def get_photo_url(self, obj):
         request = self.context.get('request')
