@@ -63,7 +63,7 @@ const StaticText = () => {
             >
               Slide {index + 1}
             </label>
-            <input
+            <textarea
               type="text"
               id={`slide${index + 1}`}
               name={`slide${index + 1}`}

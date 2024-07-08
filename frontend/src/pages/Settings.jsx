@@ -15,7 +15,7 @@ const Settings = () => {
       case "Static Texts":
         return <StaticText />;
       case "Prices":
-        return <ClinicPhotosUpload />;
+        return <div> Price Page </div>;
       default:
         return null;
     }
@@ -43,7 +43,7 @@ const Settings = () => {
           <Tile
             title="Prices"
             description="Add Your prices here"
-            onClick={() => setSelectedTile("Clinic Photos")}
+            onClick={() => setSelectedTile("Prices")}
           />
         </div>
         <div className="mt-4">{renderComponent()}</div>
