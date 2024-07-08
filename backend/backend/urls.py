@@ -21,7 +21,8 @@ urlpatterns = [
     path('api/patients/<int:pk>/update/', UpdatePatient.as_view(), name='update-patient'),
     path('api/doctors/update/', UpdateDoctor.as_view(), name='update-doctor'),
     path('api/clinic_photo/<int:pk>/update/', UpdateClinicPhotoView.as_view(), name='update-clinic-photo'),
-    path('api/patient_photo/<int:pk>/update/', UpdatePatientPhotoView.as_view(), name='update-patient-photo'),   path('api/doctor/me/', DoctorDetailView.as_view(), name='doctor-detail'),
+    path('api/patient_photo/<int:pk>/update/', UpdatePatientPhotoView.as_view(), name='update-patient-photo'),   
+    path('api/doctor/me/', DoctorDetailView.as_view(), name='doctor-detail'),
     path('api/patients/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
 
     # path('', include('sandbox.urls')),

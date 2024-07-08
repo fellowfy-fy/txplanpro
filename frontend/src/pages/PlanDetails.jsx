@@ -74,15 +74,15 @@ const PlanDetails = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="ml-10 bg-white rounded-3xl w-[95%]">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 text-blue-500 hover:underline"
+        className="mb-4 text-blue-500 hover:underline p-[24px]"
       >
         &lt; Back to Plans
       </button>
       {!showReport && (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row p-[24px]">
           <div className="flex-1 mb-4 md:mb-0">
             <p>Click on the photo to edit</p>
             {patient.photos.map((photo, index) => (

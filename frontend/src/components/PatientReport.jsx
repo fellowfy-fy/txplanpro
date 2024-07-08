@@ -1,5 +1,3 @@
-import placeholder1 from "../assets/placeholder1.png";
-import placeholder2 from "../assets/placeholder2.png";
 import html2pdf from "html2pdf.js";
 import { useRef } from "react";
 import useAuth from "../hooks/useAuth";
@@ -24,12 +22,13 @@ const PatientReport = ({ patient }) => {
   return (
     <div>
       <div ref={contentRef} className="pb-10">
+        {/* Page 1-3: Clinic and Patient Photos */}
         <div>
           {auth?.clinic_photos?.map((photo, index) => (
             <div key={index}>
               <img
                 src={photo.photo}
-                alt={`Photo ${index}`}
+                alt={`Clinic Photo ${index}`}
                 className="w-full h-auto scale-75 mt-2"
               />
             </div>
@@ -40,13 +39,71 @@ const PatientReport = ({ patient }) => {
             <div key={index}>
               <img
                 src={photo.photo}
-                alt={`Photo ${index}`}
+                alt={`Patient Photo ${index}`}
                 className="w-full h-auto scale-75 mt-2"
               />
             </div>
           ))}
         </div>
-        <div>
+
+        {/* Page 4: Occlusal Photos */}
+        <div className="page">
+          <div>
+            <img
+              src={patient?.occlusalUpperPhoto}
+              alt="Upper jaw occlusal photo"
+              className="w-full h-auto scale-75 mt-2"
+            />
+            <img
+              src={patient?.occlusalLowerPhoto}
+              alt="Lower jaw occlusal photo"
+              className="w-full h-auto scale-75 mt-2"
+            />
+          </div>
+          <p>
+            This text is always here and doesn't change or get edited - it's
+            part of the template
+          </p>
+        </div>
+
+        {/* Page 5: Side Photos */}
+        <div className="page">
+          <div>
+            <img
+              src={patient?.rightSidePhoto}
+              alt="Right side photo"
+              className="w-full h-auto scale-75 mt-2"
+            />
+            <img
+              src={patient?.leftSidePhoto}
+              alt="Left side photo"
+              className="w-full h-auto scale-75 mt-2"
+            />
+          </div>
+          <p>
+            This text is always here and doesn't change or get edited - it's
+            part of the template
+          </p>
+        </div>
+
+        {/* Page 6: Additional Clinical Photo */}
+        <div className="page">
+          <div>
+            <img
+              src={auth?.additionalClinicalPhoto}
+              alt="Additional Clinical Photo"
+              className="w-full h-auto scale-75 mt-2"
+            />
+          </div>
+          <p>{auth?.staticText}</p>
+          <p>
+            This text is always here and doesn't change or get edited - it's
+            part of the template
+          </p>
+        </div>
+
+        {/* Page 7: Procedures and Financial Plan */}
+        <div className="page">
           <div>
             <h1>{patient.name}</h1>
             <h1>Surgical and implant treatment</h1>
@@ -58,16 +115,49 @@ const PatientReport = ({ patient }) => {
           </div>
           <div>
             <h1>Procedures</h1>
-            <p>1 - Extractions - 18, 24, 38, 47 - 4</p>
-            <p>2 - Implant placement - 15, 14, 24, 26, 36, 46 - 6</p>
+            {patient.procedures?.map((procedure, index) => (
+              <p key={index}>{`${index + 1} - ${
+                procedure.name
+              } - ${procedure.teeth.join(", ")} - ${procedure.count}`}</p>
+            ))}
           </div>
           <div>
             <h1>Financial plan</h1>
-            <p>1 - Extractions - 1000.00$</p>
-            <p>2 - Implant placement - 7 500.00$</p>
+            {patient.financialPlan?.map((item, index) => (
+              <p key={index}>{`${index + 1} - ${
+                item.name
+              } - ${item.cost.toFixed(2)}$`}</p>
+            ))}
+          </div>
+          <div>
+            <img
+              src={patient?.panoramicXRay}
+              alt="Panoramic X-ray"
+              className="w-full h-auto scale-75 mt-2"
+            />
+          </div>
+        </div>
+
+        {/* Page 8: Dental Formula */}
+        <div className="page">
+          <div className="dental-formula">
+            {/* Implement dental formula here */}
+          </div>
+        </div>
+
+        {/* Page 9: Initial Status and Treatment Plan */}
+        <div className="page">
+          <div>
+            <h2>Initial tooth status in the formula (step 1)</h2>
+            {/* List of initial statuses */}
+          </div>
+          <div>
+            <h2>Treatment plan for each tooth (step 4)</h2>
+            {/* List of treatment plans */}
           </div>
         </div>
       </div>
+
       <button
         onClick={handleDownload}
         className="mt-3 border border-black rounded-lg p-3"
