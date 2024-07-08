@@ -1,13 +1,23 @@
 import Tile from "../components/Tile";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import ClinicPhotosUpload from "./ClinicPhotosUpload";
 
 const Settings = () => {
-  const navigate = useNavigate();
   const { auth } = useAuth();
+  const [selectedTile, setSelectedTile] = useState(null);
 
-  const handleClick = (tile) => {
-    navigate(`/settings/${tile}`);
+  const renderComponent = () => {
+    switch (selectedTile) {
+      case "Clinic Photos":
+        return <ClinicPhotosUpload />;
+      case "Static Texts":
+        return <ClinicPhotosUpload />;
+      case "Prices":
+        return <ClinicPhotosUpload />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -22,19 +32,20 @@ const Settings = () => {
           <Tile
             title="Clinic Photos"
             description="Interior and exterior photos of clinic"
-            onClick={() => handleClick("clinic_logo_and_photos")}
+            onClick={() => setSelectedTile("Clinic Photos")}
           />
           <Tile
             title="Static Texts"
             description="Describe your clinic and your care"
-            onClick={() => handleClick("static_texts")}
+            onClick={() => setSelectedTile("Clinic Photos")}
           />
           <Tile
             title="Prices"
             description="Add Your prices here"
-            onClick={() => handleClick("prices")}
+            onClick={() => setSelectedTile("Clinic Photos")}
           />
         </div>
+        <div className="mt-4">{renderComponent()}</div>
       </div>
     </div>
   );
