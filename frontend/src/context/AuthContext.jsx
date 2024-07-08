@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         const userpic = response.data.userpic;
         const clinic_photos = response.data.clinic_photos;
         const break_photo = response.data.break_photo;
+        const static_text = response.data.static_text;
 
         setAuth({
           username,
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
           userpic,
           clinic_photos,
           break_photo,
+          static_text,
         });
       } catch (refreshError) {
         console.error("Failed to refresh token:", refreshError);

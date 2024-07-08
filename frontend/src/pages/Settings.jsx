@@ -2,6 +2,7 @@ import Tile from "../components/Tile";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import ClinicPhotosUpload from "./ClinicPhotosUpload";
+import StaticText from "../components/StaticText";
 
 const Settings = () => {
   const { auth } = useAuth();
@@ -12,7 +13,7 @@ const Settings = () => {
       case "Clinic Photos":
         return <ClinicPhotosUpload />;
       case "Static Texts":
-        return <ClinicPhotosUpload />;
+        return <StaticText />;
       case "Prices":
         return <ClinicPhotosUpload />;
       default:
@@ -37,7 +38,7 @@ const Settings = () => {
           <Tile
             title="Static Texts"
             description="Describe your clinic and your care"
-            onClick={() => setSelectedTile("Clinic Photos")}
+            onClick={() => setSelectedTile("Static Texts")}
           />
           <Tile
             title="Prices"
