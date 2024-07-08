@@ -77,4 +77,5 @@ const PatientReport = ({ patient }) => {
     </div>
   );
 };
+
 export default PatientReport;
