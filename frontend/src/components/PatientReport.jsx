@@ -21,7 +21,7 @@ const PatientReport = ({ patient }) => {
   return (
     <div className="m-20">
       <div ref={contentRef}>
-        {/* Clinic Photos */}
+        {/* первый слайд */}
         <div className="relative w-[16in] h-[9in]">
           <img
             src={auth?.clinic_photos[0]?.photo}
@@ -41,6 +41,7 @@ const PatientReport = ({ patient }) => {
           )}
         </div>
 
+        {/* второй слайд */}
         <div className="relative w-[16in] h-[9in]">
           <img
             src={auth?.clinic_photos[1]?.photo}
@@ -56,7 +57,7 @@ const PatientReport = ({ patient }) => {
           )}
         </div>
 
-        {/* Patient Photos */}
+        {/* третий слайд */}
         <div className="relative w-[16in] h-[9in] text-center font-extralight text-5xl">
           <h1 className="p-5">Diagnosis Visualisation</h1>
           <div className="flex">
@@ -66,7 +67,7 @@ const PatientReport = ({ patient }) => {
                 <img
                   src={patient?.photos[0]?.photo}
                   alt="Patient Photo 1"
-                  className=" object-cover"
+                  className=" object-cover p-10"
                 />
               </div>
             </div>
@@ -76,13 +77,14 @@ const PatientReport = ({ patient }) => {
                 <img
                   src={patient?.photos[1]?.photo}
                   alt="Patient Photo 2"
-                  className=" object-cover"
+                  className=" object-cover p-10"
                 />
               </div>
             </div>
           </div>
         </div>
 
+        {/* четвертый слайд */}
         <div className="relative w-[16in] h-[9in] text-center font-extralight text-5xl">
           <h1 className="p-5">Diagnosis Visualisation</h1>
           <div className="flex">
@@ -92,7 +94,7 @@ const PatientReport = ({ patient }) => {
                 <img
                   src={patient?.photos[2]?.photo}
                   alt="Patient Photo 3"
-                  className="object-cover"
+                  className="object-cover p-10"
                 />
               </div>
             </div>
@@ -102,22 +104,25 @@ const PatientReport = ({ patient }) => {
                 <img
                   src={patient?.photos[3]?.photo}
                   alt="Patient Photo 4"
-                  className="object-cover"
+                  className="object-cover p-10"
                 />
               </div>
             </div>
           </div>
         </div>
 
+        {/* пятый слайд */}
         <div className="relative w-[16in] h-[9in]">
           <img
             src={auth?.clinic_photos[2]?.photo}
             alt="Break Photo"
             className="w-full h-full object-cover"
           />
+
           {auth?.static_text?.slide3 && (
             <div className="absolute bottom-12 left-12 text-white p-2">
-              <div className="bg-transparent text-white text-6xl border border-white rounded-3xl p-3 font-normal">
+              <div className="text-6xl py-5">Surgical & Implant Treatment</div>
+              <div className="bg-transparent text-white text-2xl border border-white rounded-3xl p-3 font-normal">
                 {auth.static_text.slide3}
               </div>
             </div>
@@ -125,19 +130,41 @@ const PatientReport = ({ patient }) => {
         </div>
       </div>
 
-      <div className="relative w-[16in] h-[9in]">
+      {/* последний слайд */}
+      <div className="relative w-[16in] h-[9in] text-center items-center">
         <img
           src={patient?.photos[4]?.photo}
           alt="Patient Photo 5"
-          className="w-full h-full object-cover"
+          className="w-full h-[4in] "
         />
-        {auth?.static_text?.slide5 && (
-          <div className="absolute bottom-12 left-12 text-white p-2">
-            <div className="bg-transparent text-white text-6xl border border-white rounded-3xl p-3 font-normal">
-              {auth.static_text.slide5}
+        <div>
+          {auth?.static_text?.slide5 && (
+            <div className="flex text-black">
+              <div className="w-1/3">
+                <div className="text-3xl font-semibold py-5">
+                  Surgical & Implant Treatment
+                </div>
+                <div className="text-xl font-extralight rounded-3xl">
+                  {auth.static_text.slide5}
+                </div>
+              </div>
+              <div className="w-1/3">
+                <div className="text-3xl font-semibold py-5">Procedures</div>
+                <div className="text-xl font-extralight rounded-3xl">
+                  {auth.static_text.slide5}
+                </div>
+              </div>
+              <div className="w-1/3">
+                <div className="text-3xl font-semibold py-5">
+                  Financial plan
+                </div>
+                <div className="text-xl font-extralight rounded-3xl">
+                  {auth.static_text.slide5}
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <button
