@@ -48,12 +48,12 @@ const Dashboard = () => {
           ))}
         </div>
         <div className="flex justify-center mt-6">
-          <button
+          {/* <button
             className="bg-black text-white py-2 px-4 rounded"
             onClick={() => navigate("/all-plans")}
           >
             View All Plans
-          </button>
+          </button> */}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-6 ">
           <button

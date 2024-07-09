@@ -129,7 +129,7 @@ const Photos = ({ photos, handleFileUpload }) => {
                   <img
                     src={previews[name]}
                     alt={`${name} preview`}
-                    className="mt-2 w-full h-32 object-cover rounded-lg shadow-md cursor-pointer"
+                    className="mt-2 w-full h-40 object-cover rounded-lg shadow-md cursor-pointer"
                     onClick={() => document.getElementById(name).click()}
                   />
                 ) : (

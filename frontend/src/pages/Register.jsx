@@ -1,7 +1,9 @@
 import { useState } from "react";
 import api from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -29,8 +31,10 @@ const Register = () => {
         },
       });
       console.log("Registration successful:", response.data);
+      navigate("/login");
     } catch (error) {
       console.error("There was an error registering:", error);
+      alert("There was an error registering!");
     }
   };
 
