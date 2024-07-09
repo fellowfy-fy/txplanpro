@@ -184,10 +184,6 @@ const CreatePlan = () => {
     setPhotos(selectedPatient.photos || []);
   };
 
-  const handleFileChange = (event) => {
-    setSelectedFiles(event.target.files);
-  };
-
   const handleFileUpload = async () => {
     if (!currentPatient) {
       console.error("No patient selected for file upload");
@@ -258,10 +254,6 @@ const CreatePlan = () => {
           />
           {activeTab === "1 - Dental formula" && (
             <DentalFormula
-              renderTeethArch={(numTeeth, step) =>
-                renderTeethArch(numTeeth, step, initialStatus)
-              }
-              handleToothStatusChange={handleToothStatusChange}
               handleUpdate={handleUpdate}
               initialStatus={initialStatus}
             />
