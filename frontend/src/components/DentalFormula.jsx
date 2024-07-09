@@ -1,5 +1,6 @@
 import TeethArch from "./TeethArch";
 import jaws from "../assets/jaws.svg";
+import { useState } from "react";
 import tooth11 from "../assets/teeth/tooth11.svg";
 import tooth11b from "../assets/teeth/tooth11b.svg";
 import tooth12 from "../assets/teeth/tooth12.svg";
@@ -76,17 +77,48 @@ export const toothImages = {
   32: { default: tooth48, selected: tooth48b },
 };
 
-const DentalFormula = ({ handleUpdate, initialStatus }) => {
-  const handleToothStatusChange = (id, newStatus, step) => {};
+const statusToBorderColor = {
+  default: "border-transparent",
+  Extracted: "border-[#6a1a48]",
+  "Tooth Crown": "border-[#ed8ea0]",
+  "Implant crown": "border-[#c6cd85]",
+  Implant: "border-[#138c48]",
+  "Root recession": "border-[#eb19e2]",
+  "Altered Passive Eruption": "border-[#503e4f]",
+  Filling: "border-[#a5b787]",
+};
+
+const DentalFormula = ({
+  handleToothStatusChange,
+  handleUpdate,
+  initialStatus,
+}) => {
+  const [selectedStatus, setSelectedStatus] = useState("default");
+
+  const handleStatusChange = (status) => {
+    setSelectedStatus(status);
+  };
 
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="lg:w-1/4 mb-4 lg:mb-0">
-        <div className="space-y-4">
-          {["Implant", "Crown", "Filling", "Extracted"].map((text, index) => (
+        <div className="flex flex-col">
+          {[
+            "Extracted",
+            "Tooth Crown",
+            "Implant crown",
+            "Implant",
+            "Root recession",
+            "Altered Passive Eruption",
+            "Filling",
+            "default",
+          ].map((text, index) => (
             <button
               key={index}
-              className="w-full py-2 px-4 rounded bg-white hover:bg-gray-100"
+              className={`w-full py-2 px-4 rounded bg-white hover:bg-gray-100 border-[4px] border-gray-300 ${
+                selectedStatus === text ? statusToBorderColor[text] : ""
+              }`}
+              onClick={() => handleStatusChange(text)}
             >
               {text}
             </button>
@@ -106,6 +138,8 @@ const DentalFormula = ({ handleUpdate, initialStatus }) => {
             initialStatus={initialStatus}
             isUpper={true}
             handleToothStatusChange={handleToothStatusChange}
+            step={1}
+            selectedStatus={selectedStatus}
           />
         </div>
         <div className="absolute bottom-0 left-0 right-0">
@@ -115,6 +149,8 @@ const DentalFormula = ({ handleUpdate, initialStatus }) => {
             initialStatus={initialStatus}
             isUpper={false}
             handleToothStatusChange={handleToothStatusChange}
+            step={1}
+            selectedStatus={selectedStatus}
           />
         </div>
       </div>
