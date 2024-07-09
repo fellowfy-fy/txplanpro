@@ -11,7 +11,6 @@ import Photos from "../components/Photos";
 import TreatmentPlan from "../components/TreatmentPlan";
 
 const CreatePlan = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("1 - Dental formula");
   const [initialStatus, setInitialStatus] = useState({});
   const [desiredStatus, setDesiredStatus] = useState({});

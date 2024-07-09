@@ -4,5 +4,20 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".page-break": {
+          "break-after": "always",
+        },
+        "@media print": {
+          ".page-break": {
+            "page-break-after": "always",
+          },
+        },
+      };
+
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
 };
