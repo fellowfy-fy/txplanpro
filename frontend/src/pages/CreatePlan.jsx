@@ -62,12 +62,13 @@ const CreatePlan = () => {
     setDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
   };
 
+  //рендер зубов
   const renderTeethArch = (numTeeth, step, statusData) => {
     const teeth = [];
     const radius = 100;
     const centerX = 150;
 
-    // Render top teeth arch
+    // верх
     const centerYTop = 130;
     for (let i = 0; i < numTeeth; i++) {
       const angle = (Math.PI / (numTeeth - 1)) * i;
@@ -92,7 +93,7 @@ const CreatePlan = () => {
       );
     }
 
-    // Render bottom teeth arch
+    // низ
     const centerYBottom = 180;
     for (let i = 0; i < numTeeth; i++) {
       const angle = (Math.PI / (numTeeth - 1)) * i;
@@ -165,10 +166,8 @@ const CreatePlan = () => {
         }
       );
       console.log("Dental formula updated:", response.data);
-      // Handle success (e.g., navigate to another page or show a success message)
     } catch (error) {
       console.error("Error updating dental formula:", error);
-      // Handle error (e.g., show an error message)
     }
   };
 
@@ -283,37 +282,7 @@ const CreatePlan = () => {
           )}
         </div>
       </div>
-      {/* {pdfUrl && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-4 rounded-lg max-w-lg w-full">
-            <iframe
-              src={pdfUrl}
-              width="100%"
-              height="400px"
-              title="PDF Preview"
-            ></iframe>
-            <button
-              onClick={downloadPDF}
-              className="mt-4 py-2 px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-            >
-              Download
-            </button>
-            <button
-              onClick={() => setPdfUrl(null)}
-              className="mt-4 py-2 px-4 rounded-lg bg-red-500 text-white hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )} */}
-      <div style={{ display: "none" }}>
-        {/* <PdfTemplate
-          initialStatus={initialStatus}
-          desiredStatus={desiredStatus}
-          ref={pdfRef}
-        /> */}
-      </div>
+      <div style={{ display: "none" }}></div>
     </div>
   );
 };
