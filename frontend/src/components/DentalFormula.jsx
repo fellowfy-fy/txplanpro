@@ -35,14 +35,17 @@ import tooth48b from "../assets/teeth/tooth48b.svg";
 
 //экспорт зубов
 export const toothImages = {
-  1: { default: tooth11, selected: tooth11b },
-  2: { default: tooth12, selected: tooth12b },
-  3: { default: tooth13, selected: tooth13b },
-  4: { default: tooth14, selected: tooth14b },
-  5: { default: tooth15, selected: tooth15b },
-  6: { default: tooth16, selected: tooth16b },
-  7: { default: tooth17, selected: tooth17b },
-  8: { default: tooth18, selected: tooth18b },
+  //верх право
+  8: { default: tooth11, selected: tooth11b },
+  7: { default: tooth12, selected: tooth12b },
+  6: { default: tooth13, selected: tooth13b },
+  5: { default: tooth14, selected: tooth14b },
+  4: { default: tooth15, selected: tooth15b },
+  3: { default: tooth16, selected: tooth16b },
+  2: { default: tooth17, selected: tooth17b },
+  1: { default: tooth18, selected: tooth18b },
+
+  //верх лево
   9: { default: tooth11, selected: tooth11b },
   10: { default: tooth12, selected: tooth12b },
   11: { default: tooth13, selected: tooth13b },
@@ -51,14 +54,18 @@ export const toothImages = {
   14: { default: tooth16, selected: tooth16b },
   15: { default: tooth17, selected: tooth17b },
   16: { default: tooth18, selected: tooth18b },
-  17: { default: tooth41, selected: tooth41b },
-  18: { default: tooth42, selected: tooth42b },
-  19: { default: tooth43, selected: tooth43b },
-  20: { default: tooth44, selected: tooth44b },
-  21: { default: tooth45, selected: tooth45b },
-  22: { default: tooth46, selected: tooth46b },
-  23: { default: tooth47, selected: tooth47b },
-  24: { default: tooth48, selected: tooth48b },
+
+  //низ право
+  24: { default: tooth41, selected: tooth41b },
+  23: { default: tooth42, selected: tooth42b },
+  22: { default: tooth43, selected: tooth43b },
+  21: { default: tooth44, selected: tooth44b },
+  20: { default: tooth45, selected: tooth45b },
+  19: { default: tooth46, selected: tooth46b },
+  18: { default: tooth47, selected: tooth47b },
+  17: { default: tooth48, selected: tooth48b },
+
+  //низ лево
   25: { default: tooth41, selected: tooth41b },
   26: { default: tooth42, selected: tooth42b },
   27: { default: tooth43, selected: tooth43b },
@@ -76,9 +83,9 @@ const DentalFormula = ({ handleUpdate, initialStatus }) => {
   const renderTeethArch = (start, end, initialStatus, isUpper) => {
     const teeth = [];
     const totalTeeth = end - start + 1;
-    const a = isUpper ? 0.012 : -0.012; // Adjust parabola factor
+    const a = isUpper ? 0.011 : -0.011; // Adjust parabola factor
     const h = 112; // Vertex x-coordinate
-    const k = isUpper ? 0 : -25; // Vertex y-coordinate
+    const k = isUpper ? 0 : -26; // Vertex y-coordinate
 
     for (let i = start; i <= end; i++) {
       const x = ((i - start) / (totalTeeth - 1)) * 225; // Calculate x-coordinate
@@ -112,7 +119,7 @@ const DentalFormula = ({ handleUpdate, initialStatus }) => {
           ))}
         </div>
       </div>
-      <div className="relative w-[400px] h-[400px]">
+      <div className="relative w-[350px] h-[400px] mx-[20px] ">
         <img
           className="w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           src={jaws}
