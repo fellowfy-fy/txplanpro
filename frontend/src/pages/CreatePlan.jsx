@@ -263,9 +263,6 @@ const CreatePlan = () => {
           )}
           {activeTab === "4 - TreatmentPlan" && (
             <TreatmentPlan
-              renderTeethArch={(numTeeth, step) =>
-                renderTeethArch(numTeeth, step, desiredStatus)
-              }
               handleToothStatusChange={handleToothStatusChange}
               desiredStatus={desiredStatus}
               handleUpdate={handleUpdate}

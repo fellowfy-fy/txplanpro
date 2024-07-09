@@ -1,4 +1,4 @@
-import Tooth from "./Tooth";
+import TeethArch from "./TeethArch";
 import jaws from "../assets/jaws.svg";
 import tooth11 from "../assets/teeth/tooth11.svg";
 import tooth11b from "../assets/teeth/tooth11b.svg";
@@ -79,32 +79,6 @@ export const toothImages = {
 const DentalFormula = ({ handleUpdate, initialStatus }) => {
   const handleToothStatusChange = (id, newStatus, step) => {};
 
-  // Render teeth arch with parabolic positioning
-  const renderTeethArch = (start, end, initialStatus, isUpper) => {
-    const teeth = [];
-    const totalTeeth = end - start + 1;
-    const a = isUpper ? 0.011 : -0.011; // Adjust parabola factor
-    const h = 112; // Vertex x-coordinate
-    const k = isUpper ? 0 : -26; // Vertex y-coordinate
-
-    for (let i = start; i <= end; i++) {
-      const x = ((i - start) / (totalTeeth - 1)) * 225; // Calculate x-coordinate
-      const y = a * Math.pow(x - h, 2) + k; // Calculate y-coordinate using parabola equation
-
-      teeth.push(
-        <Tooth
-          key={i}
-          id={i}
-          className="absolute"
-          handleToothStatusChange={handleToothStatusChange}
-          status={initialStatus[i]}
-          style={{ left: `${x}px`, top: `${y}px` }}
-        />
-      );
-    }
-    return teeth;
-  };
-
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="lg:w-1/4 mb-4 lg:mb-0">
@@ -126,10 +100,22 @@ const DentalFormula = ({ handleUpdate, initialStatus }) => {
           alt="Jaws"
         />
         <div className="absolute top-0 left-0 right-0">
-          {renderTeethArch(1, 16, initialStatus, true)}
+          <TeethArch
+            start={1}
+            end={16}
+            initialStatus={initialStatus}
+            isUpper={true}
+            handleToothStatusChange={handleToothStatusChange}
+          />
         </div>
         <div className="absolute bottom-0 left-0 right-0">
-          {renderTeethArch(17, 32, initialStatus, false)}
+          <TeethArch
+            start={17}
+            end={32}
+            initialStatus={initialStatus}
+            isUpper={false}
+            handleToothStatusChange={handleToothStatusChange}
+          />
         </div>
       </div>
       <div className="lg:w-3/4 p-4 rounded-xl border border-neutral-300">
