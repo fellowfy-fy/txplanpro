@@ -53,71 +53,13 @@ const CreatePlan = () => {
   };
 
   const handleToothStatusChange = (id, status, step) => {
+    console.log(`Tooth ${id} status changed to ${status} at step ${step}`);
     if (step === 1) {
       setInitialStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
     } else if (step === 4) {
       setDesiredStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
     }
     setDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
-  };
-
-  //рендер зубов
-  const renderTeethArch = (numTeeth, step, statusData) => {
-    const teeth = [];
-    const radius = 100;
-    const centerX = 150;
-
-    // верх
-    const centerYTop = 130;
-    for (let i = 0; i < numTeeth; i++) {
-      const angle = (Math.PI / (numTeeth - 1)) * i;
-      const x = centerX + radius * Math.cos(angle) - 16;
-      const y = centerYTop - radius * Math.sin(angle) - 16;
-
-      const status = statusData[`top-${i}`];
-
-      teeth.push(
-        <Tooth
-          key={`top-${i}`}
-          id={`top-${i}`}
-          className="absolute transform rotate-180"
-          style={{
-            left: `${x}px`,
-            top: `${y}px`,
-          }}
-          step={step}
-          status={status}
-          handleToothStatusChange={handleToothStatusChange}
-        />
-      );
-    }
-
-    // низ
-    const centerYBottom = 180;
-    for (let i = 0; i < numTeeth; i++) {
-      const angle = (Math.PI / (numTeeth - 1)) * i;
-      const x = centerX + radius * Math.cos(angle) - 16;
-      const y = centerYBottom + radius * Math.sin(angle) - 16;
-
-      const status = statusData[`bottom-${i}`];
-
-      teeth.push(
-        <Tooth
-          key={`bottom-${i}`}
-          id={`bottom-${i}`}
-          className="absolute transform"
-          style={{
-            left: `${x}px`,
-            top: `${y}px`,
-          }}
-          step={step}
-          status={status}
-          handleToothStatusChange={handleToothStatusChange}
-        />
-      );
-    }
-
-    return teeth;
   };
 
   const handleSave = async () => {
@@ -253,6 +195,7 @@ const CreatePlan = () => {
           />
           {activeTab === "1 - Dental formula" && (
             <DentalFormula
+              handleToothStatusChange={handleToothStatusChange}
               handleUpdate={handleUpdate}
               initialStatus={initialStatus}
             />

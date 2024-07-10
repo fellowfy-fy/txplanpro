@@ -86,16 +86,15 @@ const TreatmentPlan = ({
       <h2 className="text-xl font-medium mb-4">Treatment Plan</h2>
       <div className="flex flex-col lg:flex-row">
         <div className="lg:w-1/4 mb-4 lg:mb-0">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col">
             {[
-              "Implant",
-              "Veneer",
-              "Crown",
-              "Sinus-Lift",
-              "Inlay",
-              "CTG",
               "Extraction",
-              "Endo",
+              "Implant",
+              "Gingival graft",
+              "GBR",
+              "Surgical tooth lengthening",
+              "Recession closure",
+              "Sinus-lifting",
             ].map((text, index) => (
               <button
                 key={index}
@@ -119,6 +118,7 @@ const TreatmentPlan = ({
               initialStatus={desiredStatus}
               isUpper={true}
               handleToothStatusChange={handleToothStatusChange}
+              step={4}
             />
           </div>
           <div className="absolute bottom-0 left-0 right-0">
@@ -128,6 +128,7 @@ const TreatmentPlan = ({
               initialStatus={desiredStatus}
               isUpper={false}
               handleToothStatusChange={handleToothStatusChange}
+              step={4}
             />
           </div>
         </div>

@@ -9,6 +9,8 @@ const TeethArch = ({
   initialStatus,
   isUpper,
   handleToothStatusChange,
+  step,
+  selectedStatus,
 }) => {
   const teeth = [];
   const totalTeeth = end - start + 1;
@@ -28,6 +30,8 @@ const TeethArch = ({
         handleToothStatusChange={handleToothStatusChange}
         status={initialStatus[i]}
         style={{ left: `${x}px`, top: `${y}px` }}
+        step={step}
+        selectedStatus={selectedStatus}
       />
     );
   }
