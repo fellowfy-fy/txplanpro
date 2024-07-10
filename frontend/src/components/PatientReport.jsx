@@ -28,10 +28,10 @@ const PatientReport = ({ patient }) => {
             alt="Intro Photo"
             className="w-full h-full object-cover"
           />
-          {auth?.static_text?.slide3 && (
+          {auth?.static_text?.slide1 && (
             <div className="absolute top-[350px] left-12 text-white p-2">
               <div className="bg-transparent text-white text-6xl border border-white rounded-3xl p-3 font-normal">
-                {auth.static_text.slide3}
+                {auth.static_text.slide1}
               </div>
 
               <div className="font-light text-4xl">
@@ -52,6 +52,13 @@ const PatientReport = ({ patient }) => {
             <div className="absolute top-[200px] left-[120px] text-white p-2">
               <div className="bg-transparent text-white text-6xl border border-white rounded-3xl p-3 font-normal">
                 {auth.static_text.slide2}
+              </div>
+            </div>
+          )}
+          {auth?.static_text?.slide3 && (
+            <div className="absolute top-[500px] right-[120px] text-white p-2">
+              <div className="bg-transparent text-white text-2xl border border-white rounded-3xl p-3 font-normal">
+                {auth.static_text.slide3}
               </div>
             </div>
           )}
@@ -119,11 +126,11 @@ const PatientReport = ({ patient }) => {
             className="w-full h-full object-cover"
           />
 
-          {auth?.static_text?.slide3 && (
+          {auth?.static_text?.slide4 && (
             <div className="absolute top-[200px] right-12 text-white p-2">
               <div className="text-6xl py-5">Surgical & Implant Treatment</div>
               <div className="bg-transparent text-white text-2xl border border-white rounded-3xl p-3 font-normal">
-                {auth.static_text.slide3}
+                {auth.static_text.slide4}
               </div>
             </div>
           )}
