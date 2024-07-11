@@ -7,6 +7,7 @@ import {
   Transformer,
   Arrow,
   Circle,
+  Text,
 } from "react-konva";
 import useImage from "../components/useImage";
 import {
@@ -15,12 +16,14 @@ import {
   FaArrowsAlt,
   FaArrowRight,
   FaCircle,
+  FaTextHeight,
 } from "react-icons/fa";
 
 const ScribbleCanvas = ({ imageUrl, setImageData }) => {
   const [lines, setLines] = useState([]);
   const [arrows, setArrows] = useState([]);
   const [circles, setCircles] = useState([]);
+  const [texts, setTexts] = useState([]);
   const isDrawing = useRef(false);
   const [imageSrc, setImageSrc] = useState(imageUrl);
   const [image] = useImage(imageSrc);
@@ -38,7 +41,8 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
   const transformerRef = useRef(null);
   const imageRef = useRef(null);
   const [isDrawingMode, setIsDrawingMode] = useState(true); // State to toggle between drawing and moving modes
-  const [tool, setTool] = useState("pen"); // State to track the selected tool (pen, eraser, arrow, or circle)
+  const [tool, setTool] = useState("pen"); // State to track the selected tool (pen, eraser, arrow, circle, or text)
+  const [textInput, setTextInput] = useState(""); // State for text input
 
   useEffect(() => {
     if (image) {
@@ -85,15 +89,21 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
       if (tool === "arrow") {
         setArrows((prevArrows) => [
           ...prevArrows,
-          { points: [pos.x, pos.y, pos.x, pos.y] },
+          { points: [pos.x, pos.y, pos.x, pos.y], draggable: true },
         ]);
       } else if (tool === "circle") {
         setCircles((prevCircles) => [
           ...prevCircles,
-          { x: pos.x, y: pos.y, radius: 0 },
+          { x: pos.x, y: pos.y, radius: 0, draggable: true },
         ]);
       } else if (tool === "eraser") {
         // Do nothing on mousedown for eraser
+      } else if (tool === "text") {
+        setTexts((prevTexts) => [
+          ...prevTexts,
+          { x: pos.x, y: pos.y, text: textInput, draggable: true },
+        ]);
+        setTextInput(""); // Clear input after placing text
       } else {
         setLines((prevLines) => [
           ...prevLines,
@@ -101,7 +111,7 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
         ]);
       }
     },
-    [isDrawingMode, tool]
+    [isDrawingMode, tool, textInput]
   );
 
   const handleMouseMove = useCallback(
@@ -142,6 +152,9 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
         setCircles((prevCircles) =>
           prevCircles.filter((circle) => !isPointInCircle(point, circle, 20))
         );
+        setTexts((prevTexts) =>
+          prevTexts.filter((text) => !isPointNearText(point, text, 20))
+        );
       } else {
         setLines((prevLines) => {
           const lastLine = prevLines[prevLines.length - 1];
@@ -162,7 +175,7 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
       const uri = stageRef.current.toDataURL();
       setImageData(uri);
     }
-  }, [lines, arrows, circles, setImageData]);
+  }, [lines, arrows, circles, texts, setImageData]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -243,6 +256,23 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
     return distance < circle.radius + threshold;
   };
 
+  const isPointNearText = (point, text, threshold) => {
+    const textWidth = text.text.length * 12; // Assuming average width per character is 12 pixels
+    const textHeight = 16; // Assuming font size of 16 pixels
+    const textRect = {
+      x: text.x,
+      y: text.y,
+      width: textWidth,
+      height: textHeight,
+    };
+    return (
+      point.x >= textRect.x - threshold &&
+      point.x <= textRect.x + textRect.width + threshold &&
+      point.y >= textRect.y - threshold &&
+      point.y <= textRect.y + textRect.height + threshold
+    );
+  };
+
   return (
     <div className="scribble-container">
       <input
@@ -292,7 +322,24 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
         >
           <FaCircle />
         </button>
+        <button
+          onClick={() => setTool("text")}
+          className={`p-2 rounded ${
+            tool === "text" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          <FaTextHeight />
+        </button>
       </div>
+      {tool === "text" && (
+        <input
+          type="text"
+          placeholder="Enter text"
+          value={textInput}
+          onChange={(e) => setTextInput(e.target.value)}
+          className="mb-2 p-1 border rounded"
+        />
+      )}
       <Stage
         ref={stageRef}
         width={stageSize.width}
@@ -359,6 +406,22 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
               pointerWidth={10}
               lineCap="round"
               lineJoin="round"
+              draggable
+              onDragEnd={(e) => {
+                const newArrows = [...arrows];
+                newArrows[i] = {
+                  ...newArrows[i],
+                  points: [
+                    e.target.x(),
+                    e.target.y(),
+                    e.target.x() +
+                      (newArrows[i].points[2] - newArrows[i].points[0]),
+                    e.target.y() +
+                      (newArrows[i].points[3] - newArrows[i].points[1]),
+                  ],
+                };
+                setArrows(newArrows);
+              }}
             />
           ))}
           {circles.map((circle, i) => (
@@ -369,6 +432,36 @@ const ScribbleCanvas = ({ imageUrl, setImageData }) => {
               radius={circle.radius}
               stroke="black"
               strokeWidth={5}
+              draggable
+              onDragEnd={(e) => {
+                const newCircles = [...circles];
+                newCircles[i] = {
+                  ...newCircles[i],
+                  x: e.target.x(),
+                  y: e.target.y(),
+                };
+                setCircles(newCircles);
+              }}
+            />
+          ))}
+          {texts.map((text, i) => (
+            <Text
+              key={i}
+              x={text.x}
+              y={text.y}
+              text={text.text}
+              fontSize={16}
+              fill="black"
+              draggable
+              onDragEnd={(e) => {
+                const newTexts = [...texts];
+                newTexts[i] = {
+                  ...newTexts[i],
+                  x: e.target.x(),
+                  y: e.target.y(),
+                };
+                setTexts(newTexts);
+              }}
             />
           ))}
         </Layer>
