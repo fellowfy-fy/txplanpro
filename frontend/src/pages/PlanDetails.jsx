@@ -4,6 +4,14 @@ import ScribbleCanvas from "./ScribbleCanvas";
 import api from "../api/api";
 import PatientReport from "../components/PatientReport";
 
+const titles = [
+  "Upper Occlusal",
+  "Lower Occlusal",
+  "Left Side",
+  "Right Side",
+  "Panoramic X-ray",
+];
+
 const PlanDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -88,6 +96,9 @@ const PlanDetails = () => {
             <p>Click on the photo to edit</p>
             {patient.photos.map((photo, index) => (
               <div key={index}>
+                <h1 className="text-2xl font-bold text-center">
+                  {titles[index]}
+                </h1>
                 <img
                   src={photo.photo}
                   alt={`Photo ${index}`}
@@ -100,18 +111,6 @@ const PlanDetails = () => {
           <div className="flex-1 md:ml-4">
             <h1 className="text-2xl font-bold mb-2">Patient: {patient.name}</h1>
             <p className="text-gray-700 mb-4">Diagnosis: {patient.diagnosis}</p>
-            <div className="bg-gray-100 p-4 rounded-lg mb-4">
-              <h2 className="text-lg font-bold mb-2">Treatment Plan</h2>
-              <pre className="text-gray-600">
-                {JSON.stringify(patient.treatment_plan, null, 2)}
-              </pre>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg mb-4">
-              <h2 className="text-lg font-bold mb-2">Teeth Status</h2>
-              <pre className="text-gray-600">
-                {JSON.stringify(patient.teeth_status, null, 2)}
-              </pre>
-            </div>
             <button
               className="bg-black text-white py-2 px-4 rounded w-full mb-2"
               onClick={handleDownloadClick}

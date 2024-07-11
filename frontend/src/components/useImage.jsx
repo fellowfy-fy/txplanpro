@@ -4,6 +4,7 @@ const useImage = (src) => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    if (!src) return;
     const img = new Image();
     img.crossOrigin = "anonymous"; // This is necessary to avoid tainting the canvas
     img.src = src;
@@ -12,7 +13,7 @@ const useImage = (src) => {
     };
   }, [src]);
 
-  return [image];
+  return [image, setImage];
 };
 
 export default useImage;
