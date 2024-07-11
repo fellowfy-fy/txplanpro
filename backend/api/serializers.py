@@ -51,7 +51,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['user', 'userpic', 'clinic_photos', 'break_photo', 'static_text']
+        fields = ['user', 'userpic', 'clinic_photos', 'break_photo', 'static_text', 'prices']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -79,7 +79,7 @@ class DoctorUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['userpic', 'clinic_photos', 'break_photo', 'static_text']
+        fields = ['userpic', 'clinic_photos', 'break_photo', 'static_text', 'prices']
 
 class PatientSerializer(serializers.ModelSerializer):
     photos = PatientPhotoSerializer(many=True, read_only=True)

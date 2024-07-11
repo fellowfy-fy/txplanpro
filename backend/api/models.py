@@ -1,11 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+def get_default_prices():
+    return {
+        "Gingival graft": 200,
+        "New Implant": 1500,
+        "Extraction": 100,
+        "Sinus-lifting": 1200,
+        "GBR": 800,
+        "Surgical tooth lengthening": 500,
+        "Recession closure": 300,
+    }
+
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     userpic = models.ImageField(upload_to='doctor_userpics/', null=True)
     break_photo = models.ImageField(upload_to='clinic_photos/break_photo', null=True)
     static_text = models.JSONField(null=True)
+    prices = models.JSONField(default=get_default_prices) 
 
     def __str__(self):
         return self.user.username

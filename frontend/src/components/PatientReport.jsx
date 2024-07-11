@@ -18,8 +18,48 @@ const PatientReport = ({ patient }) => {
     html2pdf().from(element).set(opt).save();
   };
 
+  // Helper function to format the treatment plan
+  const formatTreatmentPlan = (treatmentPlan) => {
+    const formattedPlan = {};
+    for (const [tooth, treatment] of Object.entries(treatmentPlan)) {
+      if (treatment !== "default") {
+        if (!formattedPlan[treatment]) {
+          formattedPlan[treatment] = [];
+        }
+        formattedPlan[treatment].push(tooth);
+      }
+    }
+    return formattedPlan;
+  };
+
+  const formattedTreatmentPlan = formatTreatmentPlan(patient.treatment_plan);
+
+  // Calculate the financial plan
+  const calculateFinancialPlan = (formattedPlan, prices) => {
+    const financialPlan = {};
+    let total = 0;
+    for (const [treatment, teeth] of Object.entries(formattedPlan)) {
+      const price = prices[treatment] || 0;
+      const cost = price * teeth.length;
+      financialPlan[treatment] = { count: teeth.length, cost };
+      total += cost;
+    }
+    return { financialPlan, total };
+  };
+
+  const { financialPlan, total } = calculateFinancialPlan(
+    formattedTreatmentPlan,
+    auth.prices
+  );
+
   return (
     <div className="m-20">
+      <button
+        onClick={handleDownload}
+        className="mt-3 border border-black rounded-lg p-3"
+      >
+        Download PDF
+      </button>
       <div ref={contentRef}>
         {/* первый слайд */}
         <div className="relative w-[16in] h-[9in]">
@@ -157,15 +197,31 @@ const PatientReport = ({ patient }) => {
                 <div className="w-1/3">
                   <div className="text-3xl font-semibold py-5">Procedures</div>
                   <div className="text-xl font-extralight rounded-3xl">
-                    {auth.static_text.slide5}
+                    {Object.entries(formattedTreatmentPlan).map(
+                      ([treatment, teeth]) => (
+                        <div key={treatment}>
+                          <strong>
+                            {treatment} [{teeth.length}]
+                          </strong>
+                          : {teeth.join(", ")}
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
                 <div className="w-1/3">
                   <div className="text-3xl font-semibold py-5">
-                    Financial plan
+                    Financial Plan
                   </div>
                   <div className="text-xl font-extralight rounded-3xl">
-                    {auth.static_text.slide5}
+                    {Object.entries(financialPlan).map(
+                      ([treatment, { count, cost }]) => (
+                        <div key={treatment}>
+                          {treatment} [{count}] : ${cost}
+                        </div>
+                      )
+                    )}
+                    <strong>Total: ${total}</strong>
                   </div>
                 </div>
               </div>
@@ -173,13 +229,6 @@ const PatientReport = ({ patient }) => {
           </div>
         </div>
       </div>
-
-      <button
-        onClick={handleDownload}
-        className="mt-3 border border-black rounded-lg p-3"
-      >
-        Download PDF
-      </button>
     </div>
   );
 };

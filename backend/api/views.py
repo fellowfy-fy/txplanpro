@@ -186,7 +186,7 @@ class UpdateDoctor(UpdateAPIView):
         if not doctor:
             return Response({"error": "Doctor not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = self.get_serializer(doctor, data=request.data)
+        serializer = self.get_serializer(doctor, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -3,6 +3,7 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import ClinicPhotosUpload from "./ClinicPhotosUpload";
 import StaticText from "../components/StaticText";
+import Prices from "../components/Prices";
 
 const Settings = () => {
   const { auth } = useAuth();
@@ -15,7 +16,7 @@ const Settings = () => {
       case "Static Texts":
         return <StaticText />;
       case "Prices":
-        return <div> Price Page </div>;
+        return <Prices />;
       default:
         return null;
     }

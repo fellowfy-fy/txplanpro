@@ -38,14 +38,16 @@ const Login = () => {
       const email = userResponse.data.user.email;
       const userpic = userResponse.data.userpic;
       const clinic_photos = userResponse.data.clinic_photos;
-      const break_photo = userResponse.data.break_photo;
+      const static_text = userResponse.data.static_text;
+      const prices = userResponse.data.prices;
 
       setAuth({
         username,
         email,
         userpic,
         clinic_photos,
-        break_photo,
+        static_text,
+        prices,
       });
       navigate("/");
       console.log(auth);
