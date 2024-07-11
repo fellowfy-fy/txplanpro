@@ -18,9 +18,9 @@ import tooth46 from "../assets/teeth/tooth46.svg";
 import tooth47 from "../assets/teeth/tooth47.svg";
 import tooth48 from "../assets/teeth/tooth48.svg";
 
-//экспорт зубов
+// Export tooth images
 export const toothImages = {
-  // верх право
+  // Upper right
   8: { default: tooth11 },
   7: { default: tooth12 },
   6: { default: tooth13 },
@@ -30,7 +30,7 @@ export const toothImages = {
   2: { default: tooth17 },
   1: { default: tooth18 },
 
-  // верх лево
+  // Upper left
   9: { default: tooth11 },
   10: { default: tooth12 },
   11: { default: tooth13 },
@@ -40,7 +40,7 @@ export const toothImages = {
   15: { default: tooth17 },
   16: { default: tooth18 },
 
-  // низ право
+  // Lower right
   24: { default: tooth41 },
   23: { default: tooth42 },
   22: { default: tooth43 },
@@ -50,7 +50,7 @@ export const toothImages = {
   18: { default: tooth47 },
   17: { default: tooth48 },
 
-  // низ лево
+  // Lower left
   25: { default: tooth41 },
   26: { default: tooth42 },
   27: { default: tooth43 },
@@ -101,8 +101,10 @@ const TreatmentPlan = ({
             ].map((text, index) => (
               <button
                 key={index}
-                className={`w-full py-2 px-4 rounded bg-white hover:bg-gray-100 border-[4px] border-gray-300 ${
-                  selectedStatus === text ? statusToBorderColor[text] : ""
+                className={`w-full py-2 px-4 rounded bg-white hover:bg-gray-100 border-[4px] ${
+                  selectedStatus === text
+                    ? statusToBorderColor[text]
+                    : "border-gray-300"
                 }`}
                 onClick={() => handleStatusChange(text)}
               >
