@@ -5,7 +5,7 @@ import api from "../api/api";
 import PatientForm from "../components/PatientForm";
 import PatientSelect from "../components/PatientSelect";
 import TabNavigation from "../components/TabNavigation";
-import DentalFormula from "../components/DentalFormula";
+import AltDentalFormula from "../components/AltDentalFormula";
 import Guidelines from "../components/Guidelines";
 import Photos from "../components/Photos";
 import TreatmentPlan from "../components/TreatmentPlan";
@@ -18,7 +18,7 @@ const CreatePlan = () => {
   const [diagnosis, setDiagnosis] = useState("");
   const [patients, setPatients] = useState([]);
   const [currentPatient, setCurrentPatient] = useState(null);
-  const [dentalFormula, setDentalFormula] = useState({});
+  const [dentalFormula, setAltDentalFormula] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [photos, setPhotos] = useState([]);
 
@@ -59,7 +59,7 @@ const CreatePlan = () => {
     } else if (step === 4) {
       setDesiredStatus((prevStatus) => ({ ...prevStatus, [id]: status }));
     }
-    setDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
+    setAltDentalFormula((prevFormula) => ({ ...prevFormula, [id]: status }));
   };
 
   const handleSave = async () => {
@@ -154,7 +154,7 @@ const CreatePlan = () => {
 
   return (
     <div className="flex justify-center bg-gray-100">
-      <div className="bg-white rounded-3xl w-4/5 p-8">
+      <div className="bg-white rounded-3xl p-8">
         <h1 className="text-xl font-medium mb-4">
           Create a new complex or local segment treatment plan for Your patient
           <button className="ml-4 py-1 px-4 text-base rounded-2xl border border-neutral-300">
@@ -194,7 +194,7 @@ const CreatePlan = () => {
             handleTabChange={handleTabChange}
           />
           {activeTab === "1 - Dental formula" && (
-            <DentalFormula
+            <AltDentalFormula
               handleToothStatusChange={handleToothStatusChange}
               handleUpdate={handleUpdate}
               initialStatus={initialStatus}
