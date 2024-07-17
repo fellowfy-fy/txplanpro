@@ -32,7 +32,9 @@ const PatientReport = ({ patient }) => {
     return formattedPlan;
   };
 
-  const formattedTreatmentPlan = formatTreatmentPlan(patient.treatment_plan);
+  const formattedTreatmentPlan = patient?.treatment_plan
+    ? formatTreatmentPlan(patient.treatment_plan)
+    : 0;
 
   // Calculate the financial plan
   const calculateFinancialPlan = (formattedPlan, prices) => {
