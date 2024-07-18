@@ -60,7 +60,7 @@ import c46 from "../assets/koronki/c46.svg";
 import c47 from "../assets/koronki/c47.svg";
 import c48 from "../assets/koronki/c48.svg";
 
-// Импорт десен
+// Импорт десен и остального
 import desnaverh from "../assets/diagnosis/desnaverh.svg";
 import desnaniz from "../assets/diagnosis/desnaniz.svg";
 import implan_niz from "../assets/diagnosis/implan_niz.svg";
@@ -76,7 +76,7 @@ import recession_niz_small from "../assets/diagnosis/recession_niz_small.svg";
 
 const DentalFormula = () => {
   const handleUpdate = () => {
-    // Ваша логика обновления здесь
+    // логика обновления здесь
   };
 
   return (
@@ -87,47 +87,57 @@ const DentalFormula = () => {
         </h2>
 
         <div className="relative mb-4">
-          <img src={desnaverh} alt="desnaverh" className="absolute w-full" />
-          <div className="flex flex-wrap justify-center relative">
-            <img src={tooth18} alt="tooth18" className="h-[120px]" />
-            <img src={tooth17} alt="tooth17" className="h-[120px]" />
-            <img src={tooth16} alt="tooth16" className="h-[120px]" />
-            <img src={tooth15} alt="tooth15" className="h-[120px]" />
-            <img src={tooth14} alt="tooth14" className="h-[120px]" />
-            <img src={tooth13} alt="tooth13" className="h-[120px]" />
-            <img src={tooth12} alt="tooth12" className="h-[120px]" />
-            <img src={tooth11} alt="tooth11" className="h-[120px]" />
+          <img
+            src={desnaverh}
+            alt="desnaverh"
+            className="absolute w-full top-[54px]"
+          />
 
-            <img src={tooth21} alt="tooth21" className="h-[120px]" />
-            <img src={tooth22} alt="tooth22" className="h-[120px]" />
-            <img src={tooth23} alt="tooth23" className="h-[120px]" />
-            <img src={tooth24} alt="tooth24" className="h-[120px]" />
-            <img src={tooth25} alt="tooth25" className="h-[120px]" />
-            <img src={tooth26} alt="tooth26" className="h-[120px]" />
-            <img src={tooth27} alt="tooth27" className="h-[120px]" />
-            <img src={tooth28} alt="tooth28" className="h-[120px]" />
+          <div className="flex flex-wrap justify-center relative">
+            <img src={tooth18} alt="tooth18" className="h-[125px]" />
+            <img src={tooth17} alt="tooth17" className="h-[125px]" />
+            <img src={tooth16} alt="tooth16" className="h-[125px]" />
+            <img src={tooth15} alt="tooth15" className="h-[125px]" />
+            <img src={tooth14} alt="tooth14" className="h-[125px]" />
+            <img src={tooth13} alt="tooth13" className="h-[125px]" />
+            <img src={tooth12} alt="tooth12" className="h-[125px]" />
+            <img src={tooth11} alt="tooth11" className="h-[125px]" />
+
+            <img src={tooth21} alt="tooth21" className="h-[125px]" />
+            <img src={tooth22} alt="tooth22" className="h-[125px]" />
+            <img src={tooth23} alt="tooth23" className="h-[125px]" />
+            <img src={tooth24} alt="tooth24" className="h-[125px]" />
+            <img src={tooth25} alt="tooth25" className="h-[125px]" />
+            <img src={tooth26} alt="tooth26" className="h-[125px]" />
+            <img src={tooth27} alt="tooth27" className="h-[125px]" />
+            <img src={tooth28} alt="tooth28" className="h-[125px]" />
           </div>
         </div>
 
         <div className="relative mb-4">
-          <img src={desnaniz} alt="desnaniz" className="absolute w-full" />
+          <img
+            src={desnaniz}
+            alt="desnaniz"
+            className="absolute w-full top-1"
+          />
+
           <div className="flex flex-wrap justify-center relative">
-            <img src={tooth48} alt="tooth48" className="h-[120px]" />
-            <img src={tooth47} alt="tooth47" className="h-[120px]" />
-            <img src={tooth46} alt="tooth46" className="h-[120px]" />
-            <img src={tooth45} alt="tooth45" className="h-[120px]" />
-            <img src={tooth44} alt="tooth44" className="h-[120px]" />
-            <img src={tooth43} alt="tooth43" className="h-[120px]" />
-            <img src={tooth42} alt="tooth42" className="h-[120px]" />
-            <img src={tooth41} alt="tooth41" className="h-[120px]" />
-            <img src={tooth41} alt="tooth41" className="h-[120px]" />
-            <img src={tooth42} alt="tooth42" className="h-[120px]" />
-            <img src={tooth43} alt="tooth43" className="h-[120px]" />
-            <img src={tooth44} alt="tooth44" className="h-[120px]" />
-            <img src={tooth45} alt="tooth45" className="h-[120px]" />
-            <img src={tooth46} alt="tooth46" className="h-[120px]" />
-            <img src={tooth47} alt="tooth47" className="h-[120px]" />
-            <img src={tooth48} alt="tooth48" className="h-[120px]" />
+            <img src={tooth48} alt="tooth48" className="h-[125px]" />
+            <img src={tooth47} alt="tooth47" className="h-[125px]" />
+            <img src={tooth46} alt="tooth46" className="h-[125px]" />
+            <img src={tooth45} alt="tooth45" className="h-[125px]" />
+            <img src={tooth44} alt="tooth44" className="h-[125px]" />
+            <img src={tooth43} alt="tooth43" className="h-[125px]" />
+            <img src={tooth42} alt="tooth42" className="h-[125px]" />
+            <img src={tooth41} alt="tooth41" className="h-[125px]" />
+            <img src={tooth41} alt="tooth41" className="h-[125px]" />
+            <img src={tooth42} alt="tooth42" className="h-[125px]" />
+            <img src={tooth43} alt="tooth43" className="h-[125px]" />
+            <img src={tooth44} alt="tooth44" className="h-[125px]" />
+            <img src={tooth45} alt="tooth45" className="h-[125px]" />
+            <img src={tooth46} alt="tooth46" className="h-[125px]" />
+            <img src={tooth47} alt="tooth47" className="h-[125px]" />
+            <img src={tooth48} alt="tooth48" className="h-[125px]" />
           </div>
         </div>
 
