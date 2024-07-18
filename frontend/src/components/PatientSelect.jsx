@@ -1,5 +1,5 @@
 const PatientSelect = ({ patients, handlePatientChange }) => (
-  <div className="mt-4">
+  <div className="mt-4 mb-4">
     <label htmlFor="existing-patients" className="block text-gray-700 mb-2">
       Select Existing Patient
     </label>

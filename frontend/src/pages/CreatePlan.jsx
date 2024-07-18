@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Tooth from "../components/Tooth";
 import api from "../api/api";
 import PatientForm from "../components/PatientForm";
 import PatientSelect from "../components/PatientSelect";
@@ -114,15 +112,24 @@ const CreatePlan = () => {
 
   const handlePatientChange = (event) => {
     const patientId = event.target.value;
-    const selectedPatient = patients.find(
-      (patient) => patient.id === parseInt(patientId)
-    );
-    setCurrentPatient(selectedPatient);
-    setPatientName(selectedPatient.name);
-    setDiagnosis(selectedPatient.diagnosis);
-    setInitialStatus(selectedPatient.teeth_status || {});
-    setDesiredStatus(selectedPatient.treatment_plan || {});
-    setPhotos(selectedPatient.photos || []);
+    if (patientId) {
+      const selectedPatient = patients.find(
+        (patient) => patient.id === parseInt(patientId)
+      );
+      setCurrentPatient(selectedPatient);
+      setPatientName(selectedPatient.name);
+      setDiagnosis(selectedPatient.diagnosis);
+      setInitialStatus(selectedPatient.teeth_status || {});
+      setDesiredStatus(selectedPatient.treatment_plan || {});
+      setPhotos(selectedPatient.photos || []);
+    } else {
+      setCurrentPatient(null);
+      setPatientName("");
+      setDiagnosis("");
+      setInitialStatus({});
+      setDesiredStatus({});
+      setPhotos([]);
+    }
   };
 
   const handleFileUpload = async () => {
@@ -155,7 +162,7 @@ const CreatePlan = () => {
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="bg-white rounded-3xl p-8">
-        <h1 className="text-xl font-medium mb-4">
+        {/* <h1 className="text-xl font-medium mb-4">
           Create a new complex or local segment treatment plan for Your patient
           <button className="ml-4 py-1 px-4 text-base rounded-2xl border border-neutral-300">
             Add patient
@@ -167,51 +174,56 @@ const CreatePlan = () => {
             placeholder="Find a patient or plan..."
             className="w-full p-2 text-xs bg-white active:text-gray-200 px-4 text-gray-400 rounded-full hover:text-gray-500 border border-gray-900"
           />
-        </div>
-        <div>
-          <PatientForm
-            patientName={patientName}
-            setPatientName={setPatientName}
-            diagnosis={diagnosis}
-            setDiagnosis={setDiagnosis}
-            handleSave={handleSave}
-          />
-          {currentPatient && (
-            <div className="mt-4">
-              <h2 className="text-xl font-medium">
-                Your current patient is {currentPatient.name}
-              </h2>
+        </div> */}
+        <PatientSelect
+          patients={patients}
+          handlePatientChange={handlePatientChange}
+        />
+        {currentPatient ? (
+          <div className="bg-stone-100 rounded-2xl p-4 mt-6 ">
+            <TabNavigation
+              activeTab={activeTab}
+              handleTabChange={handleTabChange}
+            />
+            {activeTab === "1 - Dental formula" && (
+              <AltDentalFormula
+                handleToothStatusChange={handleToothStatusChange}
+                handleUpdate={handleUpdate}
+                initialStatus={initialStatus}
+              />
+            )}
+            {activeTab === "2 - Guidelines" && <Guidelines />}
+            {activeTab === "3 - Photos" && (
+              <Photos photos={photos} handleFileUpload={handleFileUpload} />
+            )}
+            {activeTab === "4 - TreatmentPlan" && (
+              <TreatmentPlan
+                handleToothStatusChange={handleToothStatusChange}
+                desiredStatus={desiredStatus}
+                handleUpdate={handleUpdate}
+              />
+            )}
+          </div>
+        ) : (
+          <>
+            <div>
+              <PatientForm
+                patientName={patientName}
+                setPatientName={setPatientName}
+                diagnosis={diagnosis}
+                setDiagnosis={setDiagnosis}
+                handleSave={handleSave}
+              />
+              {currentPatient && (
+                <div className="mt-4">
+                  <h2 className="text-xl font-medium">
+                    Your current patient is {currentPatient.name}
+                  </h2>
+                </div>
+              )}
             </div>
-          )}
-          <PatientSelect
-            patients={patients}
-            handlePatientChange={handlePatientChange}
-          />
-        </div>
-        <div className="bg-stone-100 rounded-2xl p-4 mt-6">
-          <TabNavigation
-            activeTab={activeTab}
-            handleTabChange={handleTabChange}
-          />
-          {activeTab === "1 - Dental formula" && (
-            <AltDentalFormula
-              handleToothStatusChange={handleToothStatusChange}
-              handleUpdate={handleUpdate}
-              initialStatus={initialStatus}
-            />
-          )}
-          {activeTab === "2 - Guidelines" && <Guidelines />}
-          {activeTab === "3 - Photos" && (
-            <Photos photos={photos} handleFileUpload={handleFileUpload} />
-          )}
-          {activeTab === "4 - TreatmentPlan" && (
-            <TreatmentPlan
-              handleToothStatusChange={handleToothStatusChange}
-              desiredStatus={desiredStatus}
-              handleUpdate={handleUpdate}
-            />
-          )}
-        </div>
+          </>
+        )}
       </div>
       <div style={{ display: "none" }}></div>
     </div>

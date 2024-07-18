@@ -2,7 +2,7 @@ import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import Layout from "./Layout.jsx";
-import Create from "./pages/Create.jsx";
+// import Create from "./pages/Create.jsx";
 import Settings from "./pages/Settings.jsx";
 import AllPlans from "./pages/AllPlans";
 import PlanDetails from "./pages/PlanDetails";
@@ -21,7 +21,7 @@ function App() {
             <Route element={<Layout />}>
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="create" element={<Create />} />
+                <Route path="create" element={<CreatePlan />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="all-plans" element={<AllPlans />} />
                 <Route path="createplan" element={<CreatePlan />} />
