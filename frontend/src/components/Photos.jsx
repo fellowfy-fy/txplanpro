@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api/api";
 
-const Photos = ({ photos, handleFileUpload }) => {
+const Photos = ({ photos, handleFileUpload, handleTabChange }) => {
   const [selectedFiles, setSelectedFiles] = useState({
     upper_occlusal: null,
     lower_occlusal: null,
@@ -16,6 +16,10 @@ const Photos = ({ photos, handleFileUpload }) => {
     side_right: null,
     panoramic_xray: null,
   });
+
+  const handleNext = () => {
+    handleTabChange("4 - TreatmentPlan");
+  };
 
   const handleInputChange = (e) => {
     const { name, files } = e.target;
@@ -150,6 +154,12 @@ const Photos = ({ photos, handleFileUpload }) => {
               </div>
             );
           })}
+          <button
+            onClick={handleNext}
+            className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

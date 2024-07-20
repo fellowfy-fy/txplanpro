@@ -74,9 +74,9 @@ import recession_verh_small from "../assets/diagnosis/recession_verh_small.svg";
 import recession_niz_big from "../assets/diagnosis/recession_niz_big.svg";
 import recession_niz_small from "../assets/diagnosis/recession_niz_small.svg";
 
-const DentalFormula = () => {
-  const handleUpdate = () => {
-    // логика обновления здесь
+const DentalFormula = ({ handleTabChange }) => {
+  const handleNext = () => {
+    handleTabChange("2 - Guidelines");
   };
 
   return (
@@ -200,7 +200,7 @@ const DentalFormula = () => {
         </p>
         <button
           className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
-          onClick={handleUpdate}
+          onClick={handleNext}
         >
           Save Dental Formula
         </button>

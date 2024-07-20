@@ -7,6 +7,7 @@ import AltDentalFormula from "../components/AltDentalFormula";
 import Guidelines from "../components/Guidelines";
 import Photos from "../components/Photos";
 import TreatmentPlan from "../components/TreatmentPlan";
+import ErrorMessage from "../components/ErrorMessage";
 
 const CreatePlan = () => {
   const [activeTab, setActiveTab] = useState("1 - Dental formula");
@@ -19,6 +20,7 @@ const CreatePlan = () => {
   const [dentalFormula, setAltDentalFormula] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [photos, setPhotos] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -32,6 +34,7 @@ const CreatePlan = () => {
         setPatients(response.data);
       } catch (error) {
         console.error("Error fetching patients:", error);
+        setError("Error fetching patients. Please try again later.");
       }
     };
 
@@ -43,6 +46,7 @@ const CreatePlan = () => {
       setPhotos(currentPatient.photos);
       setInitialStatus(currentPatient.teeth_status || {});
       setDesiredStatus(currentPatient.treatment_plan || {});
+      setPatientName(currentPatient.name || "Unknown");
     }
   }, [currentPatient]);
 
@@ -80,12 +84,14 @@ const CreatePlan = () => {
       setCurrentPatient(response.data);
     } catch (error) {
       console.error("Error saving patient:", error);
+      setError("Error saving patient. Please try again.");
     }
   };
 
   const handleUpdate = async () => {
     if (!currentPatient) {
       console.error("No patient selected");
+      setError("No patient selected.");
       return;
     }
     const token = localStorage.getItem("access_token");
@@ -107,6 +113,7 @@ const CreatePlan = () => {
       console.log("Dental formula updated:", response.data);
     } catch (error) {
       console.error("Error updating dental formula:", error);
+      setError("Error updating dental formula. Please try again.");
     }
   };
 
@@ -135,6 +142,7 @@ const CreatePlan = () => {
   const handleFileUpload = async () => {
     if (!currentPatient) {
       console.error("No patient selected for file upload");
+      setError("No patient selected for file upload.");
       return;
     }
 
@@ -156,6 +164,7 @@ const CreatePlan = () => {
       console.log("Files uploaded:", response.data);
     } catch (error) {
       console.error("Error uploading files:", error);
+      setError("Error uploading files. Please try again.");
     }
   };
 
@@ -178,6 +187,7 @@ const CreatePlan = () => {
         <PatientSelect
           patients={patients}
           handlePatientChange={handlePatientChange}
+          currentPatient={currentPatient}
         />
         {currentPatient ? (
           <div className="bg-stone-100 rounded-2xl p-4 mt-6 ">
@@ -190,11 +200,18 @@ const CreatePlan = () => {
                 handleToothStatusChange={handleToothStatusChange}
                 handleUpdate={handleUpdate}
                 initialStatus={initialStatus}
+                handleTabChange={handleTabChange}
               />
             )}
-            {activeTab === "2 - Guidelines" && <Guidelines />}
+            {activeTab === "2 - Guidelines" && (
+              <Guidelines handleTabChange={handleTabChange} />
+            )}
             {activeTab === "3 - Photos" && (
-              <Photos photos={photos} handleFileUpload={handleFileUpload} />
+              <Photos
+                photos={photos}
+                handleFileUpload={handleFileUpload}
+                handleTabChange={handleTabChange}
+              />
             )}
             {activeTab === "4 - TreatmentPlan" && (
               <TreatmentPlan
@@ -214,13 +231,6 @@ const CreatePlan = () => {
                 setDiagnosis={setDiagnosis}
                 handleSave={handleSave}
               />
-              {currentPatient && (
-                <div className="mt-4">
-                  <h2 className="text-xl font-medium">
-                    Your current patient is {currentPatient.name}
-                  </h2>
-                </div>
-              )}
             </div>
           </>
         )}
