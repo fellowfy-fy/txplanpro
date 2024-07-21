@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     
     # Local apps
     'api.apps.ApiConfig',
-    # 'sandbox.apps.SandboxConfig',
+    'pdf.apps.PdfConfig',
     
 ]
 

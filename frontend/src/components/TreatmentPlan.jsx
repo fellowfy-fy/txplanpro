@@ -17,6 +17,7 @@ import tooth45 from "../assets/teeth/tooth45.svg";
 import tooth46 from "../assets/teeth/tooth46.svg";
 import tooth47 from "../assets/teeth/tooth47.svg";
 import tooth48 from "../assets/teeth/tooth48.svg";
+import { useNavigate } from "react-router-dom";
 
 // Export tooth images
 export const toothImages = {
@@ -76,11 +77,17 @@ const TreatmentPlan = ({
   handleToothStatusChange,
   handleUpdate,
   desiredStatus,
+  patientId,
 }) => {
+  const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState("default");
 
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
+  };
+
+  const navigateToPDF = () => {
+    navigate(`/txplan/${patientId}/`);
   };
 
   return (
@@ -154,7 +161,7 @@ const TreatmentPlan = ({
             which you can edit later.
           </p>
           <div className="space-y-2">
-            <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
+            {/* <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
               Skip and generate
             </button>
             <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
@@ -162,13 +169,19 @@ const TreatmentPlan = ({
             </button>
             <button className="py-2 px-4 rounded-lg border border-neutral-300 hover:bg-gray-100">
               Generate plan
-            </button>
+            </button> */}
 
             <button
               className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
               onClick={handleUpdate}
             >
               Save Treatment Plan
+            </button>
+            <button
+              className="py-2 px-4 rounded-lg border border-neutral-300 mt-4 hover:bg-gray-100"
+              onClick={navigateToPDF}
+            >
+              Go to PDF
             </button>
           </div>
         </div>

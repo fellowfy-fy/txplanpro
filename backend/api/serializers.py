@@ -21,11 +21,13 @@ class ClinicPhotoSerializer(serializers.ModelSerializer):
         return None
 
 class PatientPhotoSerializer(serializers.ModelSerializer):
+    photo = serializers.SerializerMethodField()
+
     class Meta:
         model = PatientPhoto
         fields = ['id', 'photo']
-        
-    def get_photo_url(self, obj):
+
+    def get_photo(self, obj):
         request = self.context.get('request')
         if obj.photo:
             photo_url = obj.photo.url

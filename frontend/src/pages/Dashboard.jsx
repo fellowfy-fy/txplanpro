@@ -66,7 +66,7 @@ const Dashboard = () => {
               local cases)
             </p>
           </button>
-          <button
+          {/* <button
             className="border rounded-lg p-4 hover:bg-gray-100 transition"
             onClick={() => navigate("/create")}
           >
@@ -76,7 +76,7 @@ const Dashboard = () => {
             <p className="text-gray-600">
               Start a new plan from a DSD project (mostly for complex cases)
             </p>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -106,7 +106,7 @@ const Photos = ({ photos, handleFileUpload, handleTabChange }) => {
           intraoral and 2 portrait photos. Check "Help" section for guidelines
           on how to make those photos fast, easy and accurate.
         </p>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {[
             { name: "upper_occlusal", label: "Upper Occlusal" },
             { name: "lower_occlusal", label: "Lower Occlusal" },
@@ -119,7 +119,7 @@ const Photos = ({ photos, handleFileUpload, handleTabChange }) => {
               <div
                 key={name}
                 className={`flex-1 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center ${
-                  name === "panoramic_xray" ? "col-span-3" : ""
+                  name === "panoramic_xray" ? "col-span-2" : ""
                 }`}
               >
                 <input

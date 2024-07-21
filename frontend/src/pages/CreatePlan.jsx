@@ -20,6 +20,7 @@ const CreatePlan = () => {
   const [dentalFormula, setAltDentalFormula] = useState({});
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [photos, setPhotos] = useState([]);
+  const [IDPatient, setIDPatient] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const CreatePlan = () => {
       setInitialStatus(currentPatient.teeth_status || {});
       setDesiredStatus(currentPatient.treatment_plan || {});
       setPatientName(currentPatient.name || "Unknown");
+      setIDPatient(currentPatient.id || null);
     }
   }, [currentPatient]);
 
@@ -218,6 +220,7 @@ const CreatePlan = () => {
                 handleToothStatusChange={handleToothStatusChange}
                 desiredStatus={desiredStatus}
                 handleUpdate={handleUpdate}
+                patientId={IDPatient}
               />
             )}
           </div>

@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from api.views import RegisterView, CreatePatient, ListPatient, DoctorPhotoUploadView, PatientPhotoUploadView, UpdateDoctor, UpdatePatient, UpdateClinicPhotoView, UpdatePatientPhotoView, DoctorDetailView, PatientDetailView, DoctorPhotoDeleteView
+from pdf.views import GeneratePDF
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,8 +26,8 @@ urlpatterns = [
     path('api/doctor/me/', DoctorDetailView.as_view(), name='doctor-detail'),
     path('api/patients/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
     path('api/doctor/delete_photos/', DoctorPhotoDeleteView.as_view(), name='delete-clinic-photo'),
-
-    # path('', include('sandbox.urls')),
+    path('api/generate-pdf/', GeneratePDF.as_view(), name='generate_pdf'),
+    
 ]
 
 if settings.DEBUG:

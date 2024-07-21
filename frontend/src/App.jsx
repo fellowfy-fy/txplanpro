@@ -18,18 +18,20 @@ function App() {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route element={<Layout />}>
-              <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="create" element={<CreatePlan />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="all-plans" element={<AllPlans />} />
                 <Route path="createplan" element={<CreatePlan />} />
-                <Route path="txplan/:id" element={<PlanDetails />} />
               </Route>
+            </Route>
+            <Route element={<Layout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
+            <Route path="txplan/:id" element={<PlanDetails />} />
           </Routes>
         </AuthProvider>
       </Router>

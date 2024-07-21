@@ -7,7 +7,6 @@ from .models import Doctor, Patient, ClinicPhoto, PatientPhoto
 from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.http import FileResponse, Http404
 import os
 from django.core.files import File
 
@@ -123,7 +122,7 @@ class UpdateClinicPhotoView(APIView):
             clinic_photo.photo = photo
             clinic_photo.save()
 
-        serializer = ClinicPhotoSerializer(clinic_photo)
+        serializer = ClinicPhotoSerializer(clinic_photo, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UpdatePatientPhotoView(APIView):
@@ -145,7 +144,7 @@ class UpdatePatientPhotoView(APIView):
             patient_photo.photo = photo
             patient_photo.save()
 
-        serializer = PatientPhotoSerializer(patient_photo)
+        serializer = PatientPhotoSerializer(patient_photo, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UpdatePatient(UpdateAPIView):

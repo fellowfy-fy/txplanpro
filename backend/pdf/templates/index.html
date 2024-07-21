@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate PDF</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">Generate Invoice PDF</h1>
+    <form method="post" action="{% url 'generate_pdf' %}">
+      {% csrf_token %}
+      <label for="company_name">Company Name:</label>
+      <input type="text" id="company_name" name="company_name" /><br /><br />
+      <label for="invoice_number">Invoice Number:</label>
+      <input
+        type="text"
+        id="invoice_number"
+        name="invoice_number"
+      /><br /><br />
+      <label for="invoice_date">Invoice Date:</label>
+      <input type="date" id="invoice_date" name="invoice_date" /><br /><br />
+      <label for="customer_name">Customer Name:</label>
+      <input type="text" id="customer_name" name="customer_name" /><br /><br />
+      <label for="customer_address">Customer Address:</label>
+      <textarea id="customer_address" name="customer_address"></textarea
+      ><br /><br />
+      <label for="items">Items (Description, Quantity, Price):</label>
+      <textarea
+        id="items"
+        name="items"
+        placeholder="Item1,2,10\nItem2,1,20"
+      ></textarea
+      ><br /><br />
+      <button type="submit">Generate PDF</button>
+    </form>
+  </body>
+</html>

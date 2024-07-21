@@ -19,7 +19,7 @@ const PlanDetails = () => {
   const [editingPhotoUrl, setEditingPhotoUrl] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [editingPhotoId, setEditingPhotoId] = useState(null);
-  const [showReport, setShowReport] = useState(false);
+  const [showReport, setShowReport] = useState(true);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
