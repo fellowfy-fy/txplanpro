@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // зубы
 import tooth11 from "../assets/allteeth/tooth11.svg";
@@ -83,9 +83,31 @@ import recession_niz_big from "../assets/diagnosis/recession_niz_big.svg";
 import recession_niz_small from "../assets/diagnosis/recession_niz_small.svg";
 
 const DentalFormula = ({ handleTabChange }) => {
+  const [selectedTeeth, setSelectedTeeth] = useState([]);
+
+  const handleToothClick = (toothId) => {
+    setSelectedTeeth((prev) =>
+      prev.includes(toothId)
+        ? prev.filter((id) => id !== toothId)
+        : [...prev, toothId]
+    );
+  };
+
   const handleNext = () => {
     handleTabChange("2 - Guidelines");
   };
+
+  const renderToothButton = (toothId, src, alt, className) => (
+    <button
+      key={toothId}
+      onClick={() => handleToothClick(toothId)}
+      className={`focus:outline-none ${
+        selectedTeeth.includes(toothId) ? "ring-2 ring-blue-500" : ""
+      }`}
+    >
+      <img src={src} alt={alt} className={className} />
+    </button>
+  );
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -102,87 +124,102 @@ const DentalFormula = ({ handleTabChange }) => {
           />
 
           <div className="flex flex-wrap justify-center">
-            <img
-              src={tooth18}
-              alt="tooth18"
-              className="h-[135px] mt-[-5px] mr-[-5px]"
-            />
-            <img
-              src={tooth17}
-              alt="tooth17"
-              className="h-[145px] mt-[-7px] mr-[-3px]"
-            />
-            <img
-              src={tooth16}
-              alt="tooth16"
-              className="h-[145px] mt-[3px] ml-[-3px]"
-            />
-            <img
-              src={tooth15}
-              alt="tooth15"
-              className="h-[135px] mt-[17px] ml-[-3px]"
-            />
-            <img
-              src={tooth14}
-              alt="tooth14"
-              className="h-[160px] mt-[-8px] ml-[-3px]"
-            />
-            <img
-              src={tooth13}
-              alt="tooth13"
-              className="h-[185px] mt-[-24px] ml-[-2px]"
-            />
-            <img
-              src={tooth12}
-              alt="tooth12"
-              className="h-[150px] mt-[1px] ml-[-2px]"
-            />
-            <img
-              src={tooth11}
-              alt="tooth11"
-              className="h-[155px] mt-[-1px] mx-[-2px]"
-            />
-
-            <img
-              src={tooth21}
-              alt="tooth21"
-              className="h-[155px] mt-[-1px] mx-[-2px]"
-            />
-            <img
-              src={tooth22}
-              alt="tooth22"
-              className="h-[150px] mt-[1px] mr-[-2px] "
-            />
-            <img
-              src={tooth23}
-              alt="tooth23"
-              className="h-[185px] mt-[-24px] mr-[-2px]"
-            />
-            <img
-              src={tooth24}
-              alt="tooth24"
-              className="h-[160px] mt-[-8px] mr-[-3px]"
-            />
-            <img
-              src={tooth25}
-              alt="tooth25"
-              className="h-[135px] mt-[17px] mr-[-3px]"
-            />
-            <img
-              src={tooth26}
-              alt="tooth26"
-              className="h-[145px] mt-[3px] mr-[-3px]"
-            />
-            <img
-              src={tooth27}
-              alt="tooth27"
-              className="h-[145px] mt-[-7px] ml-[-3px]"
-            />
-            <img
-              src={tooth28}
-              alt="tooth28"
-              className="h-[135px] mt-[-5px] ml-[-5px]"
-            />
+            {renderToothButton(
+              "18",
+              tooth18,
+              "tooth18",
+              "h-[135px] mt-[-5px] mr-[-5px]"
+            )}
+            {renderToothButton(
+              "17",
+              tooth17,
+              "tooth17",
+              "h-[145px] mt-[-7px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "16",
+              tooth16,
+              "tooth16",
+              "h-[145px] mt-[3px] ml-[-3px]"
+            )}
+            {renderToothButton(
+              "15",
+              tooth15,
+              "tooth15",
+              "h-[135px] mt-[17px] ml-[-3px]"
+            )}
+            {renderToothButton(
+              "14",
+              tooth14,
+              "tooth14",
+              "h-[160px] mt-[-8px] ml-[-3px]"
+            )}
+            {renderToothButton(
+              "13",
+              tooth13,
+              "tooth13",
+              "h-[185px] mt-[-24px] ml-[-2px]"
+            )}
+            {renderToothButton(
+              "12",
+              tooth12,
+              "tooth12",
+              "h-[150px] mt-[1px] ml-[-2px]"
+            )}
+            {renderToothButton(
+              "11",
+              tooth11,
+              "tooth11",
+              "h-[155px] mt-[-1px] mx-[-2px]"
+            )}
+            {renderToothButton(
+              "21",
+              tooth21,
+              "tooth21",
+              "h-[155px] mt-[-1px] mx-[-2px]"
+            )}
+            {renderToothButton(
+              "22",
+              tooth22,
+              "tooth22",
+              "h-[150px] mt-[1px] mr-[-2px]"
+            )}
+            {renderToothButton(
+              "23",
+              tooth23,
+              "tooth23",
+              "h-[185px] mt-[-24px] mr-[-2px]"
+            )}
+            {renderToothButton(
+              "24",
+              tooth24,
+              "tooth24",
+              "h-[160px] mt-[-8px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "25",
+              tooth25,
+              "tooth25",
+              "h-[135px] mt-[17px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "26",
+              tooth26,
+              "tooth26",
+              "h-[145px] mt-[3px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "27",
+              tooth27,
+              "tooth27",
+              "h-[145px] mt-[-7px] ml-[-3px]"
+            )}
+            {renderToothButton(
+              "28",
+              tooth28,
+              "tooth28",
+              "h-[135px] mt-[-5px] ml-[-5px]"
+            )}
           </div>
         </div>
 
@@ -194,87 +231,102 @@ const DentalFormula = ({ handleTabChange }) => {
           />
 
           <div className="flex flex-wrap flex-row-reverse justify-center">
-            <img
-              src={tooth38}
-              alt="tooth38"
-              className="h-[125px] mt-[6px] ml-[-10px]"
-            />
-            <img
-              src={tooth37}
-              alt="tooth37"
-              className="h-[135px] mt-[10px] ml-[-9px]"
-            />
-            <img
-              src={tooth36}
-              alt="tooth36"
-              className="h-[155px] mt-[15px] ml-[-3px]"
-            />
-            <img
-              src={tooth35}
-              alt="tooth35"
-              className="h-[150px] mt-[24px] ml-[-5px]"
-            />
-            <img
-              src={tooth34}
-              alt="tooth34"
-              className="h-[160px] mt-[20px] ml-[-19px]"
-            />
-            <img
-              src={tooth33}
-              alt="tooth33"
-              className="h-[167px] mt-[24px] mr-[17px] ml-[-4px]"
-            />
-            <img
-              src={tooth32}
-              alt="tooth32"
-              className="h-[155px] mt-[32px] ml-[-2px]"
-            />
-            <img
-              src={tooth31}
-              alt="tooth31"
-              className="h-[152px] mt-[30px] ml-[-2px]"
-            />
-
-            <img
-              src={tooth41}
-              alt="tooth41"
-              className="h-[152px] mt-[30px] mr-[-2px]"
-            />
-            <img
-              src={tooth42}
-              alt="tooth42"
-              className="h-[155px] mt-[32px] mr-[-2px]"
-            />
-            <img
-              src={tooth43}
-              alt="tooth43"
-              className="h-[167px] mt-[24px] ml-[17px] mr-[-4px]"
-            />
-            <img
-              src={tooth44}
-              alt="tooth44"
-              className="h-[160px] mt-[20px] mr-[-19px]"
-            />
-            <img
-              src={tooth45}
-              alt="tooth45"
-              className="h-[150px] mt-[24px] mr-[-3px]"
-            />
-            <img
-              src={tooth46}
-              alt="tooth46"
-              className="h-[155px] mt-[15px] mr-[-3px]"
-            />
-            <img
-              src={tooth47}
-              alt="tooth47"
-              className="h-[135px] mt-[10px] mr-[-9px]"
-            />
-            <img
-              src={tooth48}
-              alt="tooth48"
-              className="h-[125px] mt-[6px] mr-[-10px]"
-            />
+            {renderToothButton(
+              "38",
+              tooth38,
+              "tooth38",
+              "h-[125px] mt-[6px] ml-[-10px]"
+            )}
+            {renderToothButton(
+              "37",
+              tooth37,
+              "tooth37",
+              "h-[135px] mt-[10px] ml-[-9px]"
+            )}
+            {renderToothButton(
+              "36",
+              tooth36,
+              "tooth36",
+              "h-[155px] mt-[15px] ml-[-3px]"
+            )}
+            {renderToothButton(
+              "35",
+              tooth35,
+              "tooth35",
+              "h-[150px] mt-[24px] ml-[-5px]"
+            )}
+            {renderToothButton(
+              "34",
+              tooth34,
+              "tooth34",
+              "h-[160px] mt-[20px] ml-[-19px]"
+            )}
+            {renderToothButton(
+              "33",
+              tooth33,
+              "tooth33",
+              "h-[167px] mt-[24px] mr-[17px] ml-[-4px]"
+            )}
+            {renderToothButton(
+              "32",
+              tooth32,
+              "tooth32",
+              "h-[155px] mt-[32px] ml-[-2px]"
+            )}
+            {renderToothButton(
+              "31",
+              tooth31,
+              "tooth31",
+              "h-[152px] mt-[30px] ml-[-2px]"
+            )}
+            {renderToothButton(
+              "41",
+              tooth41,
+              "tooth41",
+              "h-[152px] mt-[30px] mr-[-2px]"
+            )}
+            {renderToothButton(
+              "42",
+              tooth42,
+              "tooth42",
+              "h-[155px] mt-[32px] mr-[-2px]"
+            )}
+            {renderToothButton(
+              "43",
+              tooth43,
+              "tooth43",
+              "h-[167px] mt-[24px] ml-[17px] mr-[-4px]"
+            )}
+            {renderToothButton(
+              "44",
+              tooth44,
+              "tooth44",
+              "h-[160px] mt-[20px] mr-[-19px]"
+            )}
+            {renderToothButton(
+              "45",
+              tooth45,
+              "tooth45",
+              "h-[150px] mt-[24px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "46",
+              tooth46,
+              "tooth46",
+              "h-[155px] mt-[15px] mr-[-3px]"
+            )}
+            {renderToothButton(
+              "47",
+              tooth47,
+              "tooth47",
+              "h-[135px] mt-[10px] mr-[-9px]"
+            )}
+            {renderToothButton(
+              "48",
+              tooth48,
+              "tooth48",
+              "h-[125px] mt-[6px] mr-[-10px]"
+            )}
           </div>
         </div>
 
