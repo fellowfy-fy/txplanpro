@@ -3,7 +3,7 @@ import api from "../api/api";
 import useAuth from "../hooks/useAuth";
 
 const StaticText = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth(); // Destructure setAuth from useAuth
   const initialState = {
     slide1: auth.static_text?.slide1 || "",
     slide2: auth.static_text?.slide2 || "",
@@ -38,7 +38,13 @@ const StaticText = () => {
           },
         }
       );
+
       console.log("Static text updated:", response.data);
+      // Update the auth context with the new static text
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        static_text: staticText,
+      }));
     } catch (error) {
       console.error("Error updating static text:", error);
       alert("Failed to update static text.");

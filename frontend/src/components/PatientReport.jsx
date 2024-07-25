@@ -1,13 +1,15 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaCamera } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import api from "../api/api";
-import usePhotoUpload from "../hooks/usePhotoUpload"; // Import the custom hook
+import usePhotoUpload from "../hooks/usePhotoUpload";
 
 const PatientReport = ({ patient }) => {
   const contentRef = useRef();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [isDownloading, setIsDownloading] = useState(false);
+  const [editingField, setEditingField] = useState(null);
+  const [staticText, setStaticText] = useState(auth.static_text);
 
   const {
     files,
@@ -16,7 +18,7 @@ const PatientReport = ({ patient }) => {
     handleFileChange,
     handleUpload,
     getPhotoIdByName,
-  } = usePhotoUpload(); // Use the custom hook
+  } = usePhotoUpload();
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -39,7 +41,7 @@ const PatientReport = ({ patient }) => {
       const response = await api.post("/generate-pdf/", data, {
         responseType: "blob",
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -104,6 +106,47 @@ const PatientReport = ({ patient }) => {
     await handleUpload({ name, file: inputFiles[0] });
   };
 
+  const handleStaticTextChange = (e) => {
+    const { name, value } = e.target;
+    setStaticText((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveStaticText = async (fieldName) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await api.put(
+        "/doctors/update/",
+        { static_text: staticText },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        static_text: staticText,
+      }));
+      setEditingField(null);
+      console.log("Static text updated:", response.data);
+    } catch (error) {
+      console.error("Error updating static text:", error);
+      alert("Failed to update static text.");
+    }
+  };
+
+  const handleClick = (fieldName) => {
+    setEditingField(fieldName);
+  };
+
+  useEffect(() => {
+    setStaticText(auth.static_text);
+  }, [auth.static_text]);
+
   return (
     <div className="w-full">
       <button
@@ -137,9 +180,24 @@ const PatientReport = ({ patient }) => {
             </label>
             {auth?.static_text?.slide1 && (
               <div className="absolute top-[350px] left-12 text-white p-2">
-                <div className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal">
-                  {auth.static_text.slide1}
-                </div>
+                {editingField === "slide1" ? (
+                  <input
+                    type="text"
+                    name="slide1"
+                    value={staticText.slide1}
+                    onChange={handleStaticTextChange}
+                    onBlur={() => handleSaveStaticText("slide1")}
+                    className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal"
+                    autoFocus
+                  />
+                ) : (
+                  <div
+                    className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal cursor-pointer"
+                    onClick={() => handleClick("slide1")}
+                  >
+                    {auth.static_text.slide1}
+                  </div>
+                )}
                 <div className="font-light text-4xl lg:text-2xl">
                   Patient: <span className="font-bold">{patient?.name}</span>
                 </div>
@@ -169,16 +227,46 @@ const PatientReport = ({ patient }) => {
             </label>
             {auth?.static_text?.slide2 && (
               <div className="absolute top-[200px] left-[120px] text-white p-2">
-                <div className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal">
-                  {auth.static_text.slide2}
-                </div>
+                {editingField === "slide2" ? (
+                  <input
+                    type="text"
+                    name="slide2"
+                    value={staticText.slide2}
+                    onChange={handleStaticTextChange}
+                    onBlur={() => handleSaveStaticText("slide2")}
+                    className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal"
+                    autoFocus
+                  />
+                ) : (
+                  <div
+                    className="bg-transparent text-white text-6xl lg:text-4xl border border-white rounded-3xl p-3 font-normal cursor-pointer"
+                    onClick={() => handleClick("slide2")}
+                  >
+                    {auth.static_text.slide2}
+                  </div>
+                )}
               </div>
             )}
             {auth?.static_text?.slide3 && (
               <div className="absolute top-[500px] right-[120px] text-white p-2">
-                <div className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal">
-                  {auth.static_text.slide3}
-                </div>
+                {editingField === "slide3" ? (
+                  <input
+                    type="text"
+                    name="slide3"
+                    value={staticText.slide3}
+                    onChange={handleStaticTextChange}
+                    onBlur={() => handleSaveStaticText("slide3")}
+                    className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal"
+                    autoFocus
+                  />
+                ) : (
+                  <div
+                    className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal cursor-pointer"
+                    onClick={() => handleClick("slide3")}
+                  >
+                    {auth.static_text.slide3}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -259,12 +347,24 @@ const PatientReport = ({ patient }) => {
             </label>
             {auth?.static_text?.slide4 && (
               <div className="absolute top-[200px] right-12 text-white p-2">
-                <div className="text-6xl lg:text-4xl py-5">
-                  Surgical & Implant Treatment
-                </div>
-                <div className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal">
-                  {auth.static_text.slide4}
-                </div>
+                {editingField === "slide4" ? (
+                  <input
+                    type="text"
+                    name="slide4"
+                    value={staticText.slide4}
+                    onChange={handleStaticTextChange}
+                    onBlur={() => handleSaveStaticText("slide4")}
+                    className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal"
+                    autoFocus
+                  />
+                ) : (
+                  <div
+                    className="bg-transparent text-white text-2xl lg:text-xl border border-white rounded-3xl p-3 font-normal cursor-pointer"
+                    onClick={() => handleClick("slide4")}
+                  >
+                    {auth.static_text.slide4}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -284,7 +384,24 @@ const PatientReport = ({ patient }) => {
                       Surgical & Implant Treatment
                     </div>
                     <div className="text-xl lg:text-lg font-extralight rounded-3xl">
-                      {auth.static_text.slide5}
+                      {editingField === "slide5" ? (
+                        <input
+                          type="text"
+                          name="slide5"
+                          value={staticText.slide5}
+                          onChange={handleStaticTextChange}
+                          onBlur={() => handleSaveStaticText("slide5")}
+                          className="bg-transparent text-xl lg:text-lg font-extralight rounded-3xl"
+                          autoFocus
+                        />
+                      ) : (
+                        <div
+                          className="bg-transparent text-xl lg:text-lg font-extralight rounded-3xl cursor-pointer"
+                          onClick={() => handleClick("slide5")}
+                        >
+                          {auth.static_text.slide5}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="w-1/3">
