@@ -62,7 +62,6 @@ const Photos = ({ photos, handleFileUpload, handleTabChange }) => {
             "Content-Type": "multipart/form-data",
           },
         });
-        handleFileUpload(editingPhotoId);
         alert(`${field} uploaded successfully!`);
       } catch (error) {
         console.error(`Error uploading ${field}:`, error);

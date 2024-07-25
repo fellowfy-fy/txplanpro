@@ -2,36 +2,36 @@ import { useState, useEffect } from "react";
 import api from "../api/api";
 import useAuth from "../hooks/useAuth";
 
-const usePhotoUpload = () => {
+const usePhotoUpload = (photoType, patient) => {
   const { auth, setAuth } = useAuth();
-  const [files, setFiles] = useState({
-    intro: null,
-    vision: null,
-    break: null,
-  });
-  const [previews, setPreviews] = useState({
-    intro: null,
-    vision: null,
-    break: null,
-  });
+  const [files, setFiles] = useState({});
+  const [previews, setPreviews] = useState({});
   const [uploading, setUploading] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null);
 
   useEffect(() => {
-    if (auth.clinic_photos) {
-      setPreviews({
-        intro: getPhotoUrl("intro"),
-        vision: getPhotoUrl("vision"),
-        break: getPhotoUrl("break"),
+    if (photoType === "clinic" && auth && auth.clinic_photos) {
+      const initialPreviews = {};
+      auth.clinic_photos.forEach((photo) => {
+        initialPreviews[photo.field] = photo.photo;
       });
+      console.log("Previews Clinic");
+      console.log(initialPreviews);
+      console.log("Clinic Photos");
+      console.log(auth.clinic_photos);
+      setPreviews(initialPreviews);
+    } else if (photoType === "patient" && patient && patient.photos) {
+      const initialPreviews = {};
+      patient.photos.forEach((photo) => {
+        initialPreviews[photo.field] = photo.photo;
+      });
+      console.log("Previews");
+      console.log(initialPreviews);
+      console.log("Patient Photos");
+      console.log(patient.photos);
+      setPreviews(initialPreviews);
     }
-  }, [auth.clinic_photos]);
-
-  useEffect(() => {
-    if (fileToUpload) {
-      handleUpload(fileToUpload.name);
-    }
-  }, [fileToUpload]);
+  }, [auth, patient, photoType]);
 
   const handleFileChange = async (e) => {
     const { name, files: inputFiles } = e.target;
@@ -53,8 +53,6 @@ const usePhotoUpload = () => {
       }));
     };
     reader.readAsDataURL(file);
-
-    // Set the file to be uploaded
     setFileToUpload({ name, file });
   };
 
@@ -67,7 +65,7 @@ const usePhotoUpload = () => {
 
     const renamedFile = new File(
       [file],
-      `${name}.${file.name.split(".").pop()}`,
+      `${name}-${photoId}.${file.name.split(".").pop()}`,
       {
         type: file.type,
       }
@@ -81,7 +79,7 @@ const usePhotoUpload = () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await api.put(
-        `/clinic_photo/${photoId}/update/`,
+        `/${photoType}_photo/${photoId}/update/`,
         formData,
         {
           headers: {
@@ -91,12 +89,20 @@ const usePhotoUpload = () => {
         }
       );
       const updatedPhoto = response.data;
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        clinic_photos: prevAuth.clinic_photos.map((photo) =>
+      if (photoType === "clinic") {
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          clinic_photos: prevAuth.clinic_photos.map((photo) =>
+            photo.id === photoId
+              ? { ...photo, photo: updatedPhoto.photo }
+              : photo
+          ),
+        }));
+      } else if (photoType === "patient") {
+        patient.photos = patient.photos.map((photo) =>
           photo.id === photoId ? { ...photo, photo: updatedPhoto.photo } : photo
-        ),
-      }));
+        );
+      }
       setPreviews((prevPreviews) => ({
         ...prevPreviews,
         [name]: updatedPhoto.photo,
@@ -111,17 +117,13 @@ const usePhotoUpload = () => {
     }
   };
 
-  const getPhotoUrl = (name) => {
-    const photo = auth.clinic_photos.find((p) => p.photo.includes(name));
-    return photo
-      ? photo.photo.startsWith("http")
-        ? photo.photo
-        : `${window.location.origin}${photo.photo}`
-      : null;
-  };
-
   const getPhotoIdByName = (name) => {
-    const photo = auth.clinic_photos.find((p) => p.photo.includes(name));
+    let photo;
+    if (photoType === "clinic") {
+      photo = auth.clinic_photos.find((p) => p.photo.includes(name));
+    } else if (photoType === "patient") {
+      photo = patient.photos.find((p) => p.photo.includes(name));
+    }
     return photo ? photo.id : null;
   };
 

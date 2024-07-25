@@ -12,13 +12,16 @@ const PatientReport = ({ patient }) => {
   const [staticText, setStaticText] = useState(auth.static_text);
 
   const {
-    files,
-    previews,
-    uploading,
-    handleFileChange,
-    handleUpload,
-    getPhotoIdByName,
-  } = usePhotoUpload();
+    previews: clinicPreviews,
+    handleFileChange: handleClinicFileChange,
+    handleUpload: handleClinicUpload,
+  } = usePhotoUpload("clinic");
+
+  const {
+    previews: patientPreviews,
+    handleFileChange: handlePatientFileChange,
+    handleUpload: handlePatientUpload,
+  } = usePhotoUpload("patient", patient);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -91,19 +94,21 @@ const PatientReport = ({ patient }) => {
     auth.prices
   );
 
-  const getPhotoUrl = (name) => {
+  const getClinicPhotoUrl = (name) => {
     const photo = auth.clinic_photos.find((p) => p.photo.includes(name));
-    return photo
-      ? photo.photo.startsWith("http")
-        ? photo.photo
-        : `${window.location.origin}${photo.photo}`
-      : null;
+    return photo ? photo.photo : null;
   };
 
-  const handleFileInputChange = async (e) => {
+  const handleClinicFileInputChange = async (e) => {
     const { name, files: inputFiles } = e.target;
-    await handleFileChange(e);
-    await handleUpload({ name, file: inputFiles[0] });
+    await handleClinicFileChange(e);
+    await handleClinicUpload({ name, file: inputFiles[0] });
+  };
+
+  const handlePatientFileInputChange = async (e) => {
+    const { name, files: inputFiles } = e.target;
+    await handlePatientFileChange(e);
+    await handlePatientUpload({ name, file: inputFiles[0] });
   };
 
   const handleStaticTextChange = (e) => {
@@ -161,7 +166,7 @@ const PatientReport = ({ patient }) => {
           {/* First Slide */}
           <div className="relative w-full h-[9in]">
             <img
-              src={previews["intro"] || getPhotoUrl("intro")}
+              src={clinicPreviews["intro"] || getClinicPhotoUrl("intro")}
               alt="Intro Photo"
               className="w-full h-full object-cover"
             />
@@ -169,7 +174,7 @@ const PatientReport = ({ patient }) => {
               type="file"
               id={`file-input-intro`}
               name="intro"
-              onChange={handleFileInputChange}
+              onChange={handleClinicFileInputChange}
               className="hidden"
             />
             <label
@@ -208,7 +213,7 @@ const PatientReport = ({ patient }) => {
           {/* Second Slide */}
           <div className="relative w-full h-[9in]">
             <img
-              src={previews["vision"] || getPhotoUrl("vision")}
+              src={clinicPreviews["vision"] || getClinicPhotoUrl("vision")}
               alt="Vision Photo"
               className="w-full h-full object-cover"
             />
@@ -216,7 +221,7 @@ const PatientReport = ({ patient }) => {
               type="file"
               id={`file-input-vision`}
               name="vision"
-              onChange={handleFileInputChange}
+              onChange={handleClinicFileInputChange}
               className="hidden"
             />
             <label
@@ -279,20 +284,56 @@ const PatientReport = ({ patient }) => {
                 <h2 className="p-5">Upper jaw</h2>
                 <div>
                   <img
-                    src={patient?.photos[0]?.photo}
-                    alt="Patient Photo 1"
+                    src={
+                      patientPreviews["upper_occlusal"] ||
+                      patient.photos.find((p) =>
+                        p.photo.includes("upper_occlusal")
+                      )?.photo
+                    }
+                    alt="Upper Occlusal Photo"
                     className="w-full h-full object-cover p-10"
                   />
+                  <input
+                    type="file"
+                    id={`file-input-upper_occlusal`}
+                    name="upper_occlusal"
+                    onChange={handlePatientFileInputChange}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor={`file-input-upper_occlusal`}
+                    className="absolute top-2 right-2 text-white bg-black bg-opacity-50 p-2 rounded-full cursor-pointer"
+                  >
+                    <FaCamera />
+                  </label>
                 </div>
               </div>
               <div className="relative w-1/2">
                 <div>
                   <h2 className="p-5">Lower jaw</h2>
                   <img
-                    src={patient?.photos[1]?.photo}
-                    alt="Patient Photo 2"
+                    src={
+                      patientPreviews["lower_occlusal"] ||
+                      patient.photos.find((p) =>
+                        p.photo.includes("lower_occlusal")
+                      )?.photo
+                    }
+                    alt="Lower Occlusal Photo"
                     className="w-full h-full object-cover p-10"
                   />
+                  <input
+                    type="file"
+                    id={`file-input-lower_occlusal`}
+                    name="lower_occlusal"
+                    onChange={handlePatientFileInputChange}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor={`file-input-lower_occlusal`}
+                    className="absolute top-2 right-2 text-white bg-black bg-opacity-50 p-2 rounded-full cursor-pointer"
+                  >
+                    <FaCamera />
+                  </label>
                 </div>
               </div>
             </div>
@@ -306,20 +347,54 @@ const PatientReport = ({ patient }) => {
                 <h2 className="p-5">Left side</h2>
                 <div>
                   <img
-                    src={patient?.photos[2]?.photo}
-                    alt="Patient Photo 3"
+                    src={
+                      patientPreviews["side_left"] ||
+                      patient.photos.find((p) => p.photo.includes("side_left"))
+                        ?.photo
+                    }
+                    alt="Side Left Photo"
                     className="w-full h-full object-cover p-10"
                   />
+                  <input
+                    type="file"
+                    id={`file-input-side_left`}
+                    name="side_left"
+                    onChange={handlePatientFileInputChange}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor={`file-input-side_left`}
+                    className="absolute top-2 right-2 text-white bg-black bg-opacity-50 p-2 rounded-full cursor-pointer"
+                  >
+                    <FaCamera />
+                  </label>
                 </div>
               </div>
               <div className="relative w-1/2">
                 <h2 className="p-5">Right side</h2>
                 <div>
                   <img
-                    src={patient?.photos[3]?.photo}
-                    alt="Patient Photo 4"
+                    src={
+                      patientPreviews["side_right"] ||
+                      patient.photos.find((p) => p.photo.includes("side_right"))
+                        ?.photo
+                    }
+                    alt="Side Right Photo"
                     className="w-full h-full object-cover p-10"
                   />
+                  <input
+                    type="file"
+                    id={`file-input-side_right`}
+                    name="side_right"
+                    onChange={handlePatientFileInputChange}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor={`file-input-side_right`}
+                    className="absolute top-2 right-2 text-white bg-black bg-opacity-50 p-2 rounded-full cursor-pointer"
+                  >
+                    <FaCamera />
+                  </label>
                 </div>
               </div>
             </div>
@@ -328,7 +403,7 @@ const PatientReport = ({ patient }) => {
           {/* Fifth Slide */}
           <div className="relative w-full h-[9in]">
             <img
-              src={previews["break"] || getPhotoUrl("break")}
+              src={clinicPreviews["break"] || getClinicPhotoUrl("break")}
               alt="Break Photo"
               className="w-full h-full object-cover"
             />
@@ -336,7 +411,7 @@ const PatientReport = ({ patient }) => {
               type="file"
               id={`file-input-break`}
               name="break"
-              onChange={handleFileInputChange}
+              onChange={handleClinicFileInputChange}
               className="hidden"
             />
             <label
@@ -372,10 +447,27 @@ const PatientReport = ({ patient }) => {
           {/* Sixth Slide */}
           <div className="relative w-full h-[9in] text-center items-center">
             <img
-              src={patient?.photos[4]?.photo}
-              alt="Patient Photo 5"
+              src={
+                patientPreviews["panoramic_xray"] ||
+                patient.photos.find((p) => p.photo.includes("panoramic_xray"))
+                  ?.photo
+              }
+              alt="Panoramic X-Ray Photo"
               className="w-full h-[4in] object-cover"
             />
+            <input
+              type="file"
+              id={`file-input-panoramic_xray`}
+              name="panoramic_xray"
+              onChange={handlePatientFileInputChange}
+              className="hidden"
+            />
+            <label
+              htmlFor={`file-input-panoramic_xray`}
+              className="absolute top-2 right-2 text-white bg-black bg-opacity-50 p-2 rounded-full cursor-pointer"
+            >
+              <FaCamera />
+            </label>
             <div>
               {auth?.static_text?.slide5 && (
                 <div className="flex text-black">

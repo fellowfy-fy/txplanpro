@@ -12,11 +12,20 @@ def get_default_prices():
         "Recession closure": 300,
     }
 
+def get_default_static_text():
+    return {
+        "slide1": "Sample Text 1",
+        "slide2": "Sample Text 2",
+        "slide3": "Sample Text 3",
+        "slide4": "Sample Text 4",
+        "slide5": "Sample Text 5",
+}
+
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     userpic = models.ImageField(upload_to='doctor_userpics/', null=True)
     break_photo = models.ImageField(upload_to='clinic_photos/break_photo', null=True)
-    static_text = models.JSONField(null=True)
+    static_text = models.JSONField(default=get_default_static_text)
     prices = models.JSONField(default=get_default_prices) 
 
     def __str__(self):
